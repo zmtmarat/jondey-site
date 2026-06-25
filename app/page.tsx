@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { getCategories, getCities, getOrders, getTopMasters } from '@/lib/data';
 import type { Category, City } from '@/lib/types';
 import CategoryGrid from '@/components/CategoryGrid';
@@ -32,7 +33,7 @@ export default async function HomePage() {
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link
               href="/mastera"
-              className="rounded-xl bg-white text-brand-dark px-6 py-3 font-semibold hover:bg-slate-100 transition"
+              className="rounded-xl bg-white text-[#0d47a1] px-6 py-3 font-semibold hover:bg-slate-100 transition"
             >
               Найти мастера
             </Link>
@@ -48,6 +49,55 @@ export default async function HomePage() {
 
       <div className="mx-auto max-w-6xl px-4">
         <section className="py-10">
+          <h2 className="text-2xl font-bold mb-1">Любая помощь — от ремонта до переезда</h2>
+          <p className="text-slate-500 mb-6">
+            Найдём проверенного исполнителя под вашу задачу.
+          </p>
+          <div className="grid sm:grid-cols-3 gap-5">
+            {[
+              {
+                img: '/images/master.png',
+                title: 'Мастера по ремонту',
+                text: 'Сантехника, электрика, техника, авто',
+                href: '/mastera',
+              },
+              {
+                img: '/images/movers.png',
+                title: 'Грузчики и переезд',
+                text: 'Перевозки, погрузка, демонтаж',
+                href: '/mastera/labor',
+              },
+              {
+                img: '/images/cleaning.png',
+                title: 'Клининг и уборка',
+                text: 'Квартиры, офисы, после ремонта',
+                href: '/mastera/cleaning',
+              },
+            ].map((c) => (
+              <Link
+                key={c.title}
+                href={c.href}
+                className="group rounded-2xl bg-white border border-slate-200 overflow-hidden hover:shadow-md hover:border-brand/40 transition"
+              >
+                <div className="relative aspect-[4/3] bg-brand-light">
+                  <Image
+                    src={c.img}
+                    alt={c.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 100vw, 33vw"
+                  />
+                </div>
+                <div className="p-4">
+                  <h3 className="font-bold group-hover:text-brand">{c.title}</h3>
+                  <p className="text-sm text-slate-500 mt-1">{c.text}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="py-6">
           <h2 className="text-2xl font-bold mb-5">Категории услуг</h2>
           {categories.length > 0 ? (
             <CategoryGrid categories={categories} />
