@@ -54,7 +54,7 @@ export default async function HomePage() {
           aria-hidden
           className="pointer-events-none absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-white/10 blur-3xl"
         />
-        <div className="relative mx-auto max-w-6xl px-4 py-16 text-center">
+        <div className="relative mx-auto max-w-6xl px-4 pt-8 pb-14 text-center">
           <h1 className="text-3xl sm:text-5xl font-extrabold leading-tight">
             Мастера по ремонту и услугам
             <br className="hidden sm:block" /> по всему Казахстану
