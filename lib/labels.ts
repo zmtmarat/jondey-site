@@ -67,6 +67,11 @@ const CATEGORY_IMAGES: Record<string, string> = {
   window: '/images/categories/window.png',
   realestate: '/images/categories/realestate.png',
   equipment: '/images/categories/equipment.png',
+  moto: '/images/categories/moto.png',
+  console: '/images/categories/console.png',
+  micromobility: '/images/categories/micromobility.png',
+  mechanics: '/images/categories/mechanics.png',
+  leather: '/images/categories/leather.png',
   cleaning: '/images/cleaning.png',
   labor: '/images/movers.png',
 };
