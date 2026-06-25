@@ -20,8 +20,17 @@ export default async function HomePage() {
 
   return (
     <div>
-      <section className="bg-gradient-to-b from-brand to-brand-dark text-white">
-        <div className="mx-auto max-w-6xl px-4 py-16 text-center">
+      <section className="relative overflow-hidden bg-gradient-to-b from-brand to-brand-dark text-white">
+        {/* Декоративное технологичное свечение */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-accent/20 blur-3xl"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-white/10 blur-3xl"
+        />
+        <div className="relative mx-auto max-w-6xl px-4 py-16 text-center">
           <h1 className="text-3xl sm:text-5xl font-extrabold leading-tight">
             Мастера по ремонту и услугам
             <br className="hidden sm:block" /> по всему Казахстану
@@ -44,6 +53,17 @@ export default async function HomePage() {
             >
               Скачать приложение
             </Link>
+          </div>
+          <div className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-white/80">
+            <span className="inline-flex items-center gap-1.5">
+              ✓ Проверенные исполнители
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              ⭐ Реальные отзывы и рейтинги
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              💸 Без предоплаты, для заказчика бесплатно
+            </span>
           </div>
         </div>
       </section>
@@ -93,7 +113,7 @@ export default async function HomePage() {
           <p className="text-slate-500 mb-6">
             Найдём проверенного исполнителя под вашу задачу.
           </p>
-          <div className="grid sm:grid-cols-3 gap-5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
               {
                 img: '/images/master.png',
@@ -112,6 +132,12 @@ export default async function HomePage() {
                 title: 'Клининг и уборка',
                 text: 'Квартиры, офисы, после ремонта',
                 href: '/mastera/cleaning',
+              },
+              {
+                img: '/images/categories/delivery.png',
+                title: 'Доставка с авто',
+                text: 'Перевезти вещи, передать груз',
+                href: '/dostavka',
               },
             ].map((c) => (
               <Link

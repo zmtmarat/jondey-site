@@ -55,6 +55,26 @@ export function crewName(slug?: string | null): string {
   }
 }
 
+/// Фотография категории (если есть) — фотореалистичные снимки в едином стиле.
+const CATEGORY_IMAGES: Record<string, string> = {
+  delivery: '/images/categories/delivery.png',
+  transport: '/images/categories/transport.png',
+  plumbing: '/images/categories/plumbing.png',
+  electric: '/images/categories/electric.png',
+  appliances: '/images/categories/appliances.png',
+  computer: '/images/categories/computer.png',
+  electronics: '/images/categories/electronics.png',
+  window: '/images/categories/window.png',
+  realestate: '/images/categories/realestate.png',
+  equipment: '/images/categories/equipment.png',
+  cleaning: '/images/cleaning.png',
+  labor: '/images/movers.png',
+};
+
+export function catImage(slug?: string | null): string | null {
+  return CATEGORY_IMAGES[slug ?? ''] ?? null;
+}
+
 /// Иконка категории по slug (эмодзи — без шрифтовых зависимостей).
 export function catIcon(slug?: string | null): string {
   const map: Record<string, string> = {
