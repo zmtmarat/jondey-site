@@ -8,7 +8,9 @@ import {
   ratingText,
   workModeName,
 } from '@/lib/labels';
+import { SITE_URL } from '@/lib/site';
 import Stars from '@/components/Stars';
+import JsonLd from '@/components/JsonLd';
 
 export const revalidate = 120;
 
@@ -46,8 +48,46 @@ export default async function MasterPage({
     .map((cid) => catMap.get(Number(cid)))
     .filter(Boolean) as Category[];
 
+  const hasRating = master.avg_rating != null && master.review_count > 0;
+  const jsonLd: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name,
+    url: `${SITE_URL}/master/${master.user_id}`,
+    jobTitle: cats.map((c) => catName(c)).join(', ') || 'Мастер',
+    ...(master.avatar_url ? { image: master.avatar_url } : {}),
+    ...(hasRating
+      ? {
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: master.avg_rating!.toFixed(1),
+            reviewCount: master.review_count,
+            bestRating: 5,
+            worstRating: 1,
+          },
+        }
+      : {}),
+    ...(reviews.length > 0
+      ? {
+          review: reviews.slice(0, 10).map((r) => ({
+            '@type': 'Review',
+            author: { '@type': 'Person', name: 'Клиент Jondey' },
+            reviewRating: {
+              '@type': 'Rating',
+              ratingValue: r.rating,
+              bestRating: 5,
+              worstRating: 1,
+            },
+            ...(r.text ? { reviewBody: r.text } : {}),
+            ...(r.created_at ? { datePublished: r.created_at } : {}),
+          })),
+        }
+      : {}),
+  };
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
+      <JsonLd data={jsonLd} />
       <nav className="text-sm text-slate-500 mb-4">
         <Link href="/mastera" className="hover:text-brand">
           Каталог мастеров

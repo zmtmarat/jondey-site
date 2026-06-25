@@ -13,6 +13,7 @@ import type { Category } from '@/lib/types';
 import { catImage, catName } from '@/lib/labels';
 import { SITE_URL } from '@/lib/site';
 import MasterCard from '@/components/MasterCard';
+import JsonLd from '@/components/JsonLd';
 
 export const revalidate = 300;
 
@@ -59,8 +60,44 @@ export default async function ServicePage({
   const cat = catMap.get(service.category_id);
   const img = catImage(cat?.slug);
 
+  const breadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Услуги', item: `${SITE_URL}/uslugi` },
+      ...(cat
+        ? [
+            {
+              '@type': 'ListItem',
+              position: 2,
+              name: catName(cat),
+              item: `${SITE_URL}/mastera/${cat.slug}`,
+            },
+          ]
+        : []),
+      {
+        '@type': 'ListItem',
+        position: cat ? 3 : 2,
+        name: service.name_ru,
+        item: `${SITE_URL}/uslugi/${service.slug}`,
+      },
+    ],
+  };
+  const serviceLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: service.name_ru,
+    serviceType: service.name_ru,
+    url: `${SITE_URL}/uslugi/${service.slug}`,
+    ...(cat ? { category: catName(cat) } : {}),
+    areaServed: { '@type': 'Country', name: 'Kazakhstan' },
+    provider: { '@type': 'Organization', name: 'Jondey', url: SITE_URL },
+  };
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-10">
+      <JsonLd data={breadcrumb} />
+      <JsonLd data={serviceLd} />
       <nav className="text-sm text-slate-500 mb-4">
         <Link href="/uslugi" className="hover:text-brand">
           Услуги
