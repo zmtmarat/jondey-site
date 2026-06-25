@@ -10,6 +10,10 @@ export function cityName(c?: City | null): string {
   return c?.name_ru || c?.name_kk || '';
 }
 
+export function legalTypeName(slug?: string | null): string {
+  return slug === 'ip' ? 'ИП' : 'ТОО';
+}
+
 export function workModeName(slug?: string | null): string {
   switch (slug) {
     case 'visit':

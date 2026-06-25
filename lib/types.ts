@@ -33,6 +33,18 @@ export interface MasterAbout {
   work_mode: string | null; // visit | at_home | both
 }
 
+export interface Company {
+  id: string;
+  name: string;
+  legal_type: string; // too | ip
+  bin: string | null;
+  phone: string | null;
+  about: string | null;
+  logo_url: string | null;
+  category_ids: string[];
+  city_ids: string[];
+}
+
 export interface Review {
   id: number | string;
   rating: number;

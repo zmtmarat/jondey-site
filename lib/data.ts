@@ -2,6 +2,7 @@ import { supabase } from './supabase';
 import type {
   Category,
   City,
+  Company,
   Master,
   MasterAbout,
   OrderListing,
@@ -118,6 +119,38 @@ export async function getOrders(opts: {
   if (opts.cityId != null) q = q.eq('city_id', opts.cityId);
   const { data } = await q;
   return (data ?? []) as OrderListing[];
+}
+
+// ─── Компании (ТОО/ИП) ───────────────────────────────────────────────────────
+
+const COMPANY_COLS =
+  'id, name, legal_type, bin, phone, about, logo_url, category_ids, city_ids';
+
+export async function getCompanies(opts: {
+  categoryId?: number;
+  cityId?: number;
+}): Promise<Company[]> {
+  let q = supabase
+    .from('companies')
+    .select(COMPANY_COLS)
+    .eq('moderation_status', 'approved')
+    .order('created_at', { ascending: false });
+  if (opts.categoryId != null) {
+    q = q.contains('category_ids', [String(opts.categoryId)]);
+  }
+  if (opts.cityId != null) q = q.contains('city_ids', [String(opts.cityId)]);
+  const { data } = await q;
+  return (data ?? []) as Company[];
+}
+
+export async function getCompany(id: string): Promise<Company | null> {
+  const { data } = await supabase
+    .from('companies')
+    .select(COMPANY_COLS)
+    .eq('id', id)
+    .eq('moderation_status', 'approved')
+    .maybeSingle();
+  return (data as Company) ?? null;
 }
 
 export async function getOrder(id: string): Promise<OrderListing | null> {

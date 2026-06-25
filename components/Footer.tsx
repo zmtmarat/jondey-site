@@ -24,6 +24,11 @@ export default function Footer() {
               </Link>
             </li>
             <li>
+              <Link href="/kompanii" className="hover:text-brand">
+                Компании
+              </Link>
+            </li>
+            <li>
               <Link href="/zayavki" className="hover:text-brand">
                 Заявки
               </Link>
