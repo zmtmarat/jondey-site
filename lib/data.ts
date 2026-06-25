@@ -99,6 +99,40 @@ export async function getMaster(id: string): Promise<{
   };
 }
 
+// ─── Доставка (водители + запросы) ───────────────────────────────────────────
+
+// Водители — мастера категории «delivery» с типами транспорта из master_profiles.
+export async function getDrivers(opts: { cityId?: number } = {}): Promise<
+  Master[]
+> {
+  const cat = await getCategoryBySlug('delivery');
+  if (!cat) return [];
+  const masters = await getMasters({ categoryId: cat.id, cityId: opts.cityId });
+  if (masters.length === 0) return [];
+  // Подмешиваем типы транспорта (vehicle_types) из master_profiles.
+  const ids = masters.map((m) => m.user_id);
+  const { data } = await supabase
+    .from('master_profiles')
+    .select('user_id, vehicle_types')
+    .in('user_id', ids);
+  const vmap = new Map<string, string[]>(
+    (data ?? []).map((r: { user_id: string; vehicle_types: string[] | null }) => [
+      r.user_id,
+      r.vehicle_types ?? [],
+    ]),
+  );
+  return masters.map((m) => ({
+    ...m,
+    vehicle_types: vmap.get(m.user_id) ?? [],
+  }));
+}
+
+export async function getDeliveryOrders(limit = 30): Promise<OrderListing[]> {
+  const cat = await getCategoryBySlug('delivery');
+  if (!cat) return [];
+  return getOrders({ categoryId: cat.id, limit });
+}
+
 // ─── Заявки (объявления) ─────────────────────────────────────────────────────
 
 const ORDER_COLS =

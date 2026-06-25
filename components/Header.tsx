@@ -23,6 +23,9 @@ export default function Header() {
           <Link href="/mastera" className="hover:text-brand">
             Мастера
           </Link>
+          <Link href="/dostavka" className="hover:text-brand">
+            Доставка
+          </Link>
           <Link href="/kompanii" className="hover:text-brand">
             Компании
           </Link>

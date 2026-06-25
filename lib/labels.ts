@@ -58,6 +58,7 @@ export function crewName(slug?: string | null): string {
 /// Иконка категории по slug (эмодзи — без шрифтовых зависимостей).
 export function catIcon(slug?: string | null): string {
   const map: Record<string, string> = {
+    delivery: '🚚',
     appliances: '🔌',
     plumbing: '🚿',
     electronics: '📱',
@@ -73,6 +74,46 @@ export function catIcon(slug?: string | null): string {
     labor: '📦',
   };
   return map[slug ?? ''] ?? '🛠️';
+}
+
+/// Название типа транспорта водителя (доставка).
+export function vehicleTypeName(slug?: string | null): string {
+  switch (slug) {
+    case 'foot':
+      return 'Пеший курьер';
+    case 'moped':
+      return 'Мопед / мото';
+    case 'car':
+      return 'Легковая';
+    case 'gazelle':
+      return 'Газель';
+    case 'truck':
+      return 'Грузовая';
+    case 'refrigerator':
+      return 'Рефрижератор';
+    default:
+      return slug ?? '';
+  }
+}
+
+/// Эмодзи типа транспорта.
+export function vehicleEmoji(slug?: string | null): string {
+  switch (slug) {
+    case 'foot':
+      return '🚶';
+    case 'moped':
+      return '🛵';
+    case 'car':
+      return '🚗';
+    case 'gazelle':
+      return '🚐';
+    case 'truck':
+      return '🚚';
+    case 'refrigerator':
+      return '❄️';
+    default:
+      return '🚚';
+  }
 }
 
 export function formatMoney(n?: number | null): string {

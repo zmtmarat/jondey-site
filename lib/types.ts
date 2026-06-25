@@ -25,6 +25,8 @@ export interface Master {
   distinct_clients: number;
   avg_rating: number | null;
   verified: boolean;
+  // Только для водителей доставки (из master_profiles.vehicle_types).
+  vehicle_types?: string[];
 }
 
 export interface MasterAbout {
