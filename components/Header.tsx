@@ -1,14 +1,20 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Header() {
   return (
     <header className="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200">
       <div className="mx-auto max-w-6xl px-4 h-16 flex items-center gap-6">
         <Link href="/" className="flex items-center gap-2 shrink-0">
-          <span className="grid place-items-center w-9 h-9 rounded-xl bg-brand text-white font-extrabold">
-            J
-          </span>
-          <span className="text-xl font-extrabold text-brand-dark">Jondey</span>
+          <Image
+            src="/logo-mark.png"
+            alt="Jondey"
+            width={40}
+            height={40}
+            priority
+            className="w-10 h-10"
+          />
+          <span className="text-xl font-extrabold text-[#16306b]">Jondey</span>
         </Link>
         <nav className="hidden sm:flex items-center gap-5 text-sm font-medium text-slate-600">
           <Link href="/uslugi" className="hover:text-brand">

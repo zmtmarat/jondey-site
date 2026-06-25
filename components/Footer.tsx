@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Footer() {
   return (
@@ -6,10 +7,14 @@ export default function Footer() {
       <div className="mx-auto max-w-6xl px-4 py-10 grid gap-8 sm:grid-cols-3 text-sm">
         <div>
           <div className="flex items-center gap-2 mb-3">
-            <span className="grid place-items-center w-8 h-8 rounded-lg bg-brand text-white font-extrabold">
-              J
-            </span>
-            <span className="text-lg font-extrabold text-brand-dark">Jondey</span>
+            <Image
+              src="/logo-mark.png"
+              alt="Jondey"
+              width={32}
+              height={32}
+              className="w-8 h-8"
+            />
+            <span className="text-lg font-extrabold text-[#16306b]">Jondey</span>
           </div>
           <p className="text-slate-500">
             Маркетплейс услуг по ремонту и бытовым работам в Казахстане.
