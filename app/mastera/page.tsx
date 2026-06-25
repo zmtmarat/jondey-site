@@ -3,6 +3,7 @@ import { getCategories, getCities, getMasters } from '@/lib/data';
 import type { Category, City } from '@/lib/types';
 import MasterCard from '@/components/MasterCard';
 import CategoryGrid from '@/components/CategoryGrid';
+import { cityName } from '@/lib/labels';
 
 export const revalidate = 120;
 
@@ -83,7 +84,7 @@ function CityFilter({ cities, active }: { cities: City[]; active?: number }) {
                 : 'bg-white border-slate-200 hover:border-brand/40'
             }`}
           >
-            {c.name}
+            {cityName(c)}
           </a>
         ))}
       </div>

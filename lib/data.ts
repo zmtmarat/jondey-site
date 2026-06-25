@@ -19,9 +19,12 @@ export async function getCategories(): Promise<Category[]> {
 }
 
 export async function getCities(): Promise<City[]> {
-  const { data } = await supabase.from('cities').select('id, name');
+  const { data } = await supabase
+    .from('cities')
+    .select('id, name_ru, name_kk')
+    .eq('is_active', true);
   const list = (data ?? []) as City[];
-  list.sort((a, b) => a.name.localeCompare(b.name, 'ru'));
+  list.sort((a, b) => (a.name_ru ?? '').localeCompare(b.name_ru ?? '', 'ru'));
   return list;
 }
 

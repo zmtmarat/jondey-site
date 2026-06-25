@@ -10,7 +10,8 @@ export interface Category {
 
 export interface City {
   id: number;
-  name: string;
+  name_ru: string | null;
+  name_kk: string | null;
 }
 
 export interface Master {

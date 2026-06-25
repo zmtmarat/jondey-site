@@ -7,7 +7,7 @@ export function catName(c?: Category | null): string {
 }
 
 export function cityName(c?: City | null): string {
-  return c?.name || '';
+  return c?.name_ru || c?.name_kk || '';
 }
 
 export function workModeName(slug?: string | null): string {
