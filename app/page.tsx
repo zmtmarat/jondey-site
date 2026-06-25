@@ -27,8 +27,9 @@ export default async function HomePage() {
             <br className="hidden sm:block" /> по всему Казахстану
           </h1>
           <p className="mt-4 text-lg text-white/90 max-w-2xl mx-auto">
-            Сантехники, электрики, мастера по технике, авто и уборке. Реальные
-            отзывы, рейтинги и прямой контакт — без посредников.
+            Опишите задачу и назовите свою цену — мастера откликнутся сами.
+            Сравните отзывы и рейтинги и выберите лучшего. Без обзвона
+            десятков объявлений.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link
@@ -48,6 +49,45 @@ export default async function HomePage() {
       </section>
 
       <div className="mx-auto max-w-6xl px-4">
+        <div className="-mt-10 mb-2 rounded-2xl overflow-hidden shadow-xl relative aspect-[16/9] sm:aspect-[2/1]">
+          <Image
+            src="/images/team.png"
+            alt="Команда проверенных мастеров Jondey"
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+          />
+        </div>
+
+        <section className="py-8">
+          <h2 className="text-2xl font-bold">Как это работает</h2>
+          <p className="text-slate-500 mt-1 mb-6">
+            Не вы ищете мастера — мастера приходят к вам.
+          </p>
+          <div className="grid sm:grid-cols-3 gap-5">
+            {[
+              ['1', '📝', 'Опишите задачу и назовите цену', 'Коротко расскажите, что нужно, и укажите свой бюджет — или оставьте цену открытой.'],
+              ['2', '💬', 'Получите отклики мастеров', 'Свободные специалисты сами предложат цену и сроки. Без обзвона десятков объявлений.'],
+              ['3', '⭐', 'Выберите лучшего', 'Сравните цены, отзывы и рейтинг — и выберите того, кому доверяете.'],
+            ].map(([n, icon, title, text]) => (
+              <div key={n} className="rounded-2xl bg-white border border-slate-200 p-5">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="grid place-items-center w-9 h-9 rounded-full bg-brand text-white font-bold">
+                    {n}
+                  </span>
+                  <span className="text-2xl">{icon}</span>
+                </div>
+                <h3 className="font-bold">{title}</h3>
+                <p className="text-sm text-slate-500 mt-1">{text}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-5 text-center text-slate-500 text-sm">
+            Для заказчика — бесплатно. Никаких звонков вслепую.
+          </p>
+        </section>
+
         <section className="py-10">
           <h2 className="text-2xl font-bold mb-1">Любая помощь — от ремонта до переезда</h2>
           <p className="text-slate-500 mb-6">
