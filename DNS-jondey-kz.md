@@ -1,52 +1,50 @@
-# Подключение домена jondey.kz к Vercel (ps.kz + Plesk)
+# Перенос jondey.kz на Vercel (ps.kz / Plesk) — точные шаги
 
-Цель: чтобы сайт открывался на **https://jondey.kz** (сейчас — `jondey-site.vercel.app`).
-Делается один раз. SSL Vercel выпустит сам автоматически.
+Текущее состояние (проверено 2026-06-26):
+- `jondey.kz` → A **194.39.65.25** + есть **AAAA (IPv6)** `2a00:5da0:1000::167` (заглушка ps.kz)
+- `www.jondey.kz` → CNAME на `jondey.kz`
+- NS: **ns1/ns2/ns3.ps.kz** → DNS меняем в панели **ps.kz** (или в Plesk, если он управляет зоной домена)
 
----
-
-## Шаг 1. Добавить домен в Vercel
-1. Vercel → проект **jondey-site** → **Settings → Domains**.
-2. Нажать **Add**, ввести `jondey.kz` → Add. Повторить для `www.jondey.kz`.
-3. Vercel покажет, какие DNS-записи нужны. Обычно:
-   - **A** для `jondey.kz` (apex) → **76.76.21.21**
-   - **CNAME** для `www` → **cname.vercel-dns.com**
-   > Если Vercel показывает другие значения — берите ИХ (они приоритетны).
-
-## Шаг 2. Прописать записи в Plesk (ps.kz)
-1. Plesk → **Сайты и домены** → `jondey.kz` → **Параметры DNS** (DNS Settings).
-2. Добавить/исправить записи:
-   | Тип | Хост (имя) | Значение |
-   |-----|-----------|----------|
-   | A | `jondey.kz.` (или `@` / пусто) | `76.76.21.21` |
-   | CNAME | `www` | `cname.vercel-dns.com.` |
-3. **Удалить старую A-запись** для `@` и `www`, если она указывает на сервер Plesk
-   (иначе домен будет открывать старый сайт-заглушку, а не Vercel).
-4. ⚠️ **НЕ трогать записи MX и почтовые** (mail., autodiscover, SPF/TXT) —
-   иначе сломается почта на домене.
-5. Сохранить. Применение DNS — от нескольких минут до пары часов.
-
-> Если DNS домена управляется НЕ в Plesk, а в панели ps.kz — добавьте те же
-> записи там. Узнать где: у кого прописаны NS-серверы домена jondey.kz.
-
-## Шаг 3. Финализировать в Vercel
-1. Дождаться, пока в Vercel у `jondey.kz` появится зелёная галочка (Valid).
-2. Сделать `jondey.kz` основным (Production), а `www` — редиректом на него
-   (Vercel предложит кнопкой).
-3. **Settings → Environment Variables**: задать/исправить
-   `NEXT_PUBLIC_SITE_URL = https://jondey.kz` → **Redeploy**
-   (чтобы sitemap, canonical и OG-ссылки использовали боевой домен).
-
-## Шаг 4. SEO после подключения
-1. **Google Search Console** → добавить ресурс `https://jondey.kz` →
-   подтвердить (DNS TXT или HTML-файл) → отправить sitemap `https://jondey.kz/sitemap.xml`.
-2. (Опц.) **Яндекс.Вебмастер** — то же самое.
+Цель: открывать **https://jondey.kz** с Vercel. SSL Vercel выпустит сам.
 
 ---
 
-### Проверка
-```bash
-nslookup jondey.kz        # должен вернуть 76.76.21.21
-curl -I https://jondey.kz # 200 OK, сервер Vercel
+## Шаг 1. Vercel — добавить домен
+1. Vercel → проект **jondey-site** → **Settings → Domains → Add**.
+2. Добавить `jondey.kz`, затем `www.jondey.kz`.
+3. Vercel покажет нужные записи. Обычно:
+   - A для `jondey.kz` → **76.76.21.21**
+   - CNAME для `www` → **cname.vercel-dns.com**
+   > Если Vercel показывает другое значение A — используйте ЕГО.
+
+## Шаг 2. ps.kz — изменить DNS-записи
+Зайти: **ps.kz → Личный кабинет → Домены → jondey.kz → DNS / Управление зоной**
+(или Plesk → Сайты и домены → jondey.kz → Параметры DNS, если зона там).
+
+Сделать ровно так:
+| Действие | Тип | Имя | Значение |
+|---|---|---|---|
+| **ИЗМЕНИТЬ** | A | `@` (jondey.kz) | `76.76.21.21` |
+| **УДАЛИТЬ** ⚠️ | AAAA | `@` (jondey.kz) | `2a00:5da0:1000::167` |
+| **ИЗМЕНИТЬ** | CNAME | `www` | `cname.vercel-dns.com.` |
+
+- ⚠️ **AAAA удалить обязательно** — иначе IPv6-браузеры пойдут на старый сервер.
+- ⚠️ **НЕ трогать MX и почтовые записи** (mail, mx, SPF/TXT) — иначе сломается почта.
+- Сохранить. Применение DNS: от 10 минут до пары часов (TTL).
+
+## Шаг 3. Vercel — финал
+1. Дождаться зелёной галочки (Valid Configuration) у `jondey.kz`.
+2. Сделать `jondey.kz` основным (Production), `www` — редирект на него.
+3. **Settings → Environment Variables**: `NEXT_PUBLIC_SITE_URL = https://jondey.kz` → **Redeploy**
+   (чтобы sitemap, canonical и OG-ссылки были на боевом домене).
+
+## Шаг 4. SEO
+- Google Search Console → добавить `https://jondey.kz` → sitemap `https://jondey.kz/sitemap.xml`.
+
+---
+
+### Проверка (я сделаю, когда пропишешь записи)
 ```
-Когда заработает — напиши, я обновлю `NEXT_PUBLIC_SITE_URL` и проверю sitemap/OG.
+Resolve-DnsName jondey.kz   → 76.76.21.21
+curl -I https://jondey.kz   → 200, сервер Vercel
+```
