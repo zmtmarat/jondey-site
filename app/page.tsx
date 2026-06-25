@@ -1,65 +1,102 @@
-import Image from "next/image";
+import Link from 'next/link';
+import { getCategories, getCities, getOrders, getTopMasters } from '@/lib/data';
+import type { Category, City } from '@/lib/types';
+import CategoryGrid from '@/components/CategoryGrid';
+import MasterCard from '@/components/MasterCard';
+import OrderCard from '@/components/OrderCard';
 
-export default function Home() {
+export const revalidate = 120; // обновлять витрину раз в 2 минуты
+
+export default async function HomePage() {
+  const [categories, masters, orders, cities] = await Promise.all([
+    getCategories(),
+    getTopMasters(8),
+    getOrders({ limit: 6 }),
+    getCities(),
+  ]);
+  const catMap = new Map<number, Category>(categories.map((c) => [c.id, c]));
+  const cityMap = new Map<number, City>(cities.map((c) => [c.id, c]));
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div>
+      <section className="bg-gradient-to-b from-brand to-brand-dark text-white">
+        <div className="mx-auto max-w-6xl px-4 py-16 text-center">
+          <h1 className="text-3xl sm:text-5xl font-extrabold leading-tight">
+            Мастера по ремонту и услугам
+            <br className="hidden sm:block" /> по всему Казахстану
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="mt-4 text-lg text-white/90 max-w-2xl mx-auto">
+            Сантехники, электрики, мастера по технике, авто и уборке. Реальные
+            отзывы, рейтинги и прямой контакт — без посредников.
           </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Link
+              href="/mastera"
+              className="rounded-xl bg-white text-brand-dark px-6 py-3 font-semibold hover:bg-slate-100 transition"
+            >
+              Найти мастера
+            </Link>
+            <Link
+              href="/skachat"
+              className="rounded-xl bg-brand-dark/40 ring-1 ring-white/40 px-6 py-3 font-semibold hover:bg-brand-dark/60 transition"
+            >
+              Скачать приложение
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </section>
+
+      <div className="mx-auto max-w-6xl px-4">
+        <section className="py-10">
+          <h2 className="text-2xl font-bold mb-5">Категории услуг</h2>
+          {categories.length > 0 ? (
+            <CategoryGrid categories={categories} />
+          ) : (
+            <EmptyHint />
+          )}
+        </section>
+
+        {masters.length > 0 && (
+          <section className="py-6">
+            <div className="flex items-end justify-between mb-5">
+              <h2 className="text-2xl font-bold">Топ-мастера</h2>
+              <Link href="/mastera" className="text-brand font-medium hover:underline">
+                Все мастера →
+              </Link>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {masters.map((m) => (
+                <MasterCard key={m.user_id} master={m} catMap={catMap} />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {orders.length > 0 && (
+          <section className="py-10">
+            <div className="flex items-end justify-between mb-5">
+              <h2 className="text-2xl font-bold">Свежие заявки</h2>
+              <Link href="/zayavki" className="text-brand font-medium hover:underline">
+                Все заявки →
+              </Link>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {orders.map((o) => (
+                <OrderCard key={o.id} order={o} catMap={catMap} cityMap={cityMap} />
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function EmptyHint() {
+  return (
+    <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center text-slate-500">
+      Витрина скоро наполнится. Установите приложение, чтобы разместить заявку
+      или предложить услуги.
     </div>
   );
 }
