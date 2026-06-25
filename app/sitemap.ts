@@ -1,7 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { getCategories, getServices } from '@/lib/data';
-
-const SITE = 'https://jondey.kz';
+import { SITE_URL as SITE } from '@/lib/site';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [categories, services] = await Promise.all([

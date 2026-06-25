@@ -2,11 +2,10 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-
-const SITE = 'https://jondey.kz';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'Jondey — мастера по ремонту и услугам в Казахстане',
     template: '%s · Jondey',
