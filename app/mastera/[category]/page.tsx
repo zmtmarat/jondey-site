@@ -11,6 +11,7 @@ import type { Category } from '@/lib/types';
 import { catImage, catName } from '@/lib/labels';
 import { SITE_URL } from '@/lib/site';
 import MasterCard from '@/components/MasterCard';
+import JsonLd from '@/components/JsonLd';
 
 export const revalidate = 120;
 
@@ -48,8 +49,28 @@ export default async function CategoryMastersPage({
   const name = catName(cat);
   const img = catImage(cat.slug);
 
+  const breadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Каталог мастеров',
+        item: `${SITE_URL}/mastera`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name,
+        item: `${SITE_URL}/mastera/${cat.slug}`,
+      },
+    ],
+  };
+
   return (
     <div>
+      <JsonLd data={breadcrumb} />
       {/* Фото-хедер категории */}
       <section className="relative h-56 sm:h-72 w-full overflow-hidden bg-brand">
         {img && (
