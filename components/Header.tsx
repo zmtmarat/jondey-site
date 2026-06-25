@@ -1,6 +1,14 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
+const NAV = [
+  ['/uslugi', 'Услуги'],
+  ['/mastera', 'Мастера'],
+  ['/dostavka', 'Доставка'],
+  ['/kompanii', 'Компании'],
+  ['/zayavki', 'Заявки'],
+] as const;
+
 export default function Header() {
   return (
     <header className="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200">
@@ -17,31 +25,36 @@ export default function Header() {
           <span className="text-xl font-extrabold text-[#16306b]">Jondey</span>
         </Link>
         <nav className="hidden sm:flex items-center gap-5 text-sm font-medium text-slate-600">
-          <Link href="/uslugi" className="hover:text-brand">
-            Услуги
-          </Link>
-          <Link href="/mastera" className="hover:text-brand">
-            Мастера
-          </Link>
-          <Link href="/dostavka" className="hover:text-brand">
-            Доставка
-          </Link>
-          <Link href="/kompanii" className="hover:text-brand">
-            Компании
-          </Link>
-          <Link href="/zayavki" className="hover:text-brand">
-            Заявки
-          </Link>
+          {NAV.map(([href, label]) => (
+            <Link key={href} href={href} className="hover:text-brand">
+              {label}
+            </Link>
+          ))}
         </nav>
-        <div className="ml-auto">
+        <div className="ml-auto shrink-0">
           <Link
             href="/skachat"
-            className="inline-flex items-center rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark transition"
+            className="inline-flex items-center rounded-lg bg-brand px-3 sm:px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark transition"
           >
-            Скачать приложение
+            Скачать
           </Link>
         </div>
       </div>
+
+      {/* Мобильная навигация — горизонтальная прокрутка (на узких экранах меню скрыто) */}
+      <nav className="sm:hidden border-t border-slate-100 overflow-x-auto">
+        <div className="flex gap-1 px-3 py-2 text-sm font-medium text-slate-600 whitespace-nowrap">
+          {NAV.map(([href, label]) => (
+            <Link
+              key={href}
+              href={href}
+              className="rounded-full px-3 py-1.5 hover:bg-brand-light hover:text-brand-dark"
+            >
+              {label}
+            </Link>
+          ))}
+        </div>
+      </nav>
     </header>
   );
 }
