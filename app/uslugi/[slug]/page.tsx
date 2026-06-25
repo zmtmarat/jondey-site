@@ -8,8 +8,10 @@ import {
   getServices,
   getServicesByCategory,
 } from '@/lib/data';
+import Image from 'next/image';
 import type { Category } from '@/lib/types';
-import { catName } from '@/lib/labels';
+import { catImage, catName } from '@/lib/labels';
+import { SITE_URL } from '@/lib/site';
 import MasterCard from '@/components/MasterCard';
 
 export const revalidate = 300;
@@ -28,9 +30,14 @@ export async function generateMetadata({
   const { slug } = await params;
   const service = await getService(slug);
   if (!service) return { title: 'Услуга' };
+  const categories = await getCategories();
+  const cat = categories.find((c) => c.id === service.category_id);
+  const img = catImage(cat?.slug);
   return {
     title: `${service.name_ru} в Казахстане — цены и мастера`,
     description: `${service.name_ru}: проверенные мастера с отзывами и рейтингом. Создайте заявку на Jondey и получите предложения с ценами.`,
+    alternates: { canonical: `/uslugi/${slug}` },
+    openGraph: img ? { images: [`${SITE_URL}${img}`] } : undefined,
   };
 }
 
@@ -50,6 +57,7 @@ export default async function ServicePage({
   ]);
   const catMap = new Map<number, Category>(categories.map((c) => [c.id, c]));
   const cat = catMap.get(service.category_id);
+  const img = catImage(cat?.slug);
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10">
@@ -69,30 +77,43 @@ export default async function ServicePage({
         <span className="text-slate-700">{service.name_ru}</span>
       </nav>
 
-      <section className="rounded-2xl bg-gradient-to-b from-brand to-brand-dark text-white p-8">
-        <h1 className="text-3xl font-extrabold">
-          {service.name_ru} в Казахстане
-        </h1>
-        <p className="mt-3 text-white/90 max-w-2xl">
-          Найдите проверенного мастера по услуге «{service.name_ru}». Реальные
-          отзывы, рейтинги и прямой контакт. Создайте заявку — и получите
-          предложения с ценами от специалистов.
-        </p>
-        <div className="mt-6 flex flex-wrap gap-3">
-          <Link
-            href="/skachat"
-            className="rounded-xl bg-white text-brand-dark px-6 py-3 font-semibold hover:bg-slate-100 transition"
-          >
-            Создать заявку
-          </Link>
-          {cat && (
+      <section className="relative overflow-hidden rounded-2xl bg-brand text-white">
+        {img && (
+          <Image
+            src={img}
+            alt={service.name_ru}
+            fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 1024px"
+            className="object-cover"
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand/90 to-brand-dark/85" />
+        <div className="relative p-8">
+          <h1 className="text-3xl font-extrabold">
+            {service.name_ru} в Казахстане
+          </h1>
+          <p className="mt-3 text-white/90 max-w-2xl">
+            Найдите проверенного мастера по услуге «{service.name_ru}». Реальные
+            отзывы, рейтинги и прямой контакт. Создайте заявку — и получите
+            предложения с ценами от специалистов.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
             <Link
-              href={`/mastera/${cat.slug}`}
-              className="rounded-xl bg-brand-dark/40 ring-1 ring-white/40 px-6 py-3 font-semibold hover:bg-brand-dark/60 transition"
+              href="/skachat"
+              className="rounded-xl bg-white text-brand-dark px-6 py-3 font-semibold hover:bg-slate-100 transition"
             >
-              Все мастера: {catName(cat)}
+              Создать заявку
             </Link>
-          )}
+            {cat && (
+              <Link
+                href={`/mastera/${cat.slug}`}
+                className="rounded-xl bg-brand-dark/40 ring-1 ring-white/40 px-6 py-3 font-semibold hover:bg-brand-dark/60 transition"
+              >
+                Все мастера: {catName(cat)}
+              </Link>
+            )}
+          </div>
         </div>
       </section>
 
