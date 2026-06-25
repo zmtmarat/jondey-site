@@ -1,53 +1,92 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Скачать приложение Jondey',
   description:
-    'Установите приложение Jondey, чтобы заказывать услуги или зарабатывать как мастер. Android и iOS.',
+    'Установите приложение Jondey, чтобы заказывать услуги или зарабатывать как исполнитель. Android и iOS.',
+  alternates: { canonical: '/skachat' },
 };
 
 export default function DownloadPage() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-16 text-center">
-      <span className="grid place-items-center w-20 h-20 rounded-3xl bg-brand text-white text-4xl font-extrabold mx-auto">
-        J
-      </span>
-      <h1 className="text-3xl font-extrabold mt-6">Приложение Jondey</h1>
-      <p className="text-slate-500 mt-3 max-w-xl mx-auto">
-        Заказывайте услуги или находите клиентов как мастер. Чат, отзыви,
-        отслеживание мастера на карте — всё в одном приложении.
-      </p>
-
-      <div className="mt-8 flex flex-wrap justify-center gap-4">
-        <a
-          href="#"
-          className="rounded-xl bg-brand text-white px-6 py-3 font-semibold hover:bg-brand-dark transition"
-        >
-           App Store (скоро)
-        </a>
-        <a
-          href="#"
-          className="rounded-xl bg-slate-800 text-white px-6 py-3 font-semibold hover:bg-black transition"
-        >
-          ▶ Google Play (скоро)
-        </a>
-      </div>
-
-      <div className="mt-12 grid sm:grid-cols-3 gap-6 text-left">
-        {[
-          ['🔍', 'Найдите мастера', 'Каталог с рейтингами и отзывами.'],
-          ['💬', 'Общайтесь в чате', 'Договоритесь о цене и времени.'],
-          ['🗺️', 'Мастер в пути', 'Следите за мастером на карте.'],
-        ].map(([icon, title, text]) => (
-          <div
-            key={title}
-            className="rounded-2xl bg-white border border-slate-200 p-5"
-          >
-            <div className="text-3xl">{icon}</div>
-            <h3 className="font-semibold mt-2">{title}</h3>
-            <p className="text-sm text-slate-500 mt-1">{text}</p>
+    <div className="mx-auto max-w-4xl px-4 py-14">
+      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand to-brand-dark text-white px-6 py-12 sm:px-12 text-center">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-20 -right-16 h-64 w-64 rounded-full bg-accent/20 blur-3xl"
+        />
+        <div className="relative">
+          <Image
+            src="/logo-mark.png"
+            alt="Jondey"
+            width={88}
+            height={88}
+            priority
+            className="mx-auto w-20 h-20 rounded-2xl bg-white/10 p-2"
+          />
+          <h1 className="text-3xl sm:text-4xl font-extrabold mt-5">
+            Приложение Jondey
+          </h1>
+          <p className="text-white/90 mt-3 max-w-xl mx-auto">
+            Заказывайте услуги или находите клиентов как исполнитель. Чат,
+            отзывы, оплата по договорённости и отслеживание мастера на карте —
+            всё в одном приложении.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <span className="rounded-xl bg-white/90 text-brand-dark px-6 py-3 font-semibold cursor-default">
+               App Store — скоро
+            </span>
+            <span className="rounded-xl bg-black/30 ring-1 ring-white/30 px-6 py-3 font-semibold cursor-default">
+              ▶ Google Play — скоро
+            </span>
           </div>
-        ))}
+          <p className="text-white/70 text-sm mt-3">
+            Уже работает на Android. Магазины приложений — на подходе.
+          </p>
+        </div>
+      </section>
+
+      {/* Две аудитории */}
+      <div className="mt-10 grid sm:grid-cols-2 gap-5">
+        <div className="rounded-2xl bg-white border border-slate-200 p-6">
+          <h2 className="text-xl font-bold">Заказчику</h2>
+          <p className="text-slate-500 mt-1">
+            Опишите задачу и назовите цену — исполнители откликнутся сами.
+          </p>
+          <ul className="mt-4 space-y-2 text-sm text-slate-700">
+            <li>🔍 Каталог мастеров с рейтингами и отзывами</li>
+            <li>💬 Чат: договоритесь о цене и времени</li>
+            <li>🗺️ «Мастер в пути» — следите на карте</li>
+            <li>💸 Бесплатно, без предоплаты</li>
+          </ul>
+          <Link
+            href="/mastera"
+            className="mt-5 inline-flex rounded-xl bg-brand text-white px-5 py-2.5 font-semibold hover:bg-brand-dark transition"
+          >
+            Смотреть мастеров
+          </Link>
+        </div>
+        <div className="rounded-2xl bg-white border border-slate-200 p-6">
+          <h2 className="text-xl font-bold">Исполнителю</h2>
+          <p className="text-slate-500 mt-1">
+            Получайте заявки рядом и предлагайте свою цену. Больше клиентов — без
+            рекламы.
+          </p>
+          <ul className="mt-4 space-y-2 text-sm text-slate-700">
+            <li>📩 Заявки по вашим категориям и городу</li>
+            <li>📍 «На связи» — заказы поблизости по геолокации</li>
+            <li>⭐ Профиль с отзывами и рейтингом</li>
+            <li>🚚 Доставка с авто — отдельный поток заказов</li>
+          </ul>
+          <Link
+            href="/dostavka"
+            className="mt-5 inline-flex rounded-xl bg-slate-900 text-white px-5 py-2.5 font-semibold hover:bg-black transition"
+          >
+            Узнать про доставку
+          </Link>
+        </div>
       </div>
     </div>
   );

@@ -5,6 +5,30 @@ import type { Category, City } from '@/lib/types';
 import CategoryGrid from '@/components/CategoryGrid';
 import MasterCard from '@/components/MasterCard';
 import OrderCard from '@/components/OrderCard';
+import JsonLd from '@/components/JsonLd';
+
+const FAQ: [string, string][] = [
+  [
+    'Сколько стоит разместить заявку?',
+    'Для заказчика Jondey бесплатен. Вы описываете задачу, называете свою цену (или оставляете её открытой) и получаете отклики от исполнителей — без предоплаты и скрытых комиссий.',
+  ],
+  [
+    'Как выбрать мастера?',
+    'После публикации заявки свободные специалисты сами предлагают цену и сроки. Вы сравниваете их рейтинги, отзывы и стоимость — и выбираете того, кому доверяете. Не нужно обзванивать десятки объявлений.',
+  ],
+  [
+    'В каких городах работает Jondey?',
+    'Jondey работает по всему Казахстану — Алматы, Астана, Шымкент и другие города. Заявки автоматически показываются исполнителям в вашем городе и поблизости.',
+  ],
+  [
+    'Можно ли заказать доставку или грузоперевозку?',
+    'Да. В разделе «Доставка» вы отмечаете точку отправления на карте, адрес доставки и что везти — а водители с подходящим транспортом (от курьера до грузовой) откликаются со своей ценой.',
+  ],
+  [
+    'Как стать исполнителем?',
+    'Установите приложение, выберите свои направления и город — и получайте заявки рядом. Включите статус «на связи», чтобы вам приходили заказы поблизости по геолокации.',
+  ],
+];
 
 export const revalidate = 120; // обновлять витрину раз в 2 минуты
 
@@ -203,6 +227,38 @@ export default async function HomePage() {
             </div>
           </section>
         )}
+
+        <section className="py-10">
+          <h2 className="text-2xl font-bold mb-5">Частые вопросы</h2>
+          <div className="space-y-3">
+            {FAQ.map(([q, a]) => (
+              <details
+                key={q}
+                className="group rounded-2xl bg-white border border-slate-200 p-5"
+              >
+                <summary className="flex cursor-pointer items-center justify-between font-semibold list-none">
+                  {q}
+                  <span className="ml-3 text-brand transition group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600">{a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        <JsonLd
+          data={{
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: FAQ.map(([q, a]) => ({
+              '@type': 'Question',
+              name: q,
+              acceptedAnswer: { '@type': 'Answer', text: a },
+            })),
+          }}
+        />
       </div>
     </div>
   );
