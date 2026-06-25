@@ -33,6 +33,15 @@ export interface MasterAbout {
   work_mode: string | null; // visit | at_home | both
 }
 
+export interface Service {
+  id: number;
+  category_id: number;
+  slug: string;
+  name_ru: string;
+  name_kk: string | null;
+  popular: boolean;
+}
+
 export interface Company {
   id: string;
   name: string;

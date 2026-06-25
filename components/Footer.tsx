@@ -19,6 +19,11 @@ export default function Footer() {
           <h4 className="font-semibold mb-3 text-slate-700">Разделы</h4>
           <ul className="space-y-2 text-slate-500">
             <li>
+              <Link href="/uslugi" className="hover:text-brand">
+                Все услуги
+              </Link>
+            </li>
+            <li>
               <Link href="/mastera" className="hover:text-brand">
                 Каталог мастеров
               </Link>

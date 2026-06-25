@@ -11,6 +11,9 @@ export default function Header() {
           <span className="text-xl font-extrabold text-brand-dark">Jondey</span>
         </Link>
         <nav className="hidden sm:flex items-center gap-5 text-sm font-medium text-slate-600">
+          <Link href="/uslugi" className="hover:text-brand">
+            Услуги
+          </Link>
           <Link href="/mastera" className="hover:text-brand">
             Мастера
           </Link>

@@ -7,6 +7,7 @@ import type {
   MasterAbout,
   OrderListing,
   Review,
+  Service,
 } from './types';
 
 // ─── Справочники ─────────────────────────────────────────────────────────────
@@ -119,6 +120,38 @@ export async function getOrders(opts: {
   if (opts.cityId != null) q = q.eq('city_id', opts.cityId);
   const { data } = await q;
   return (data ?? []) as OrderListing[];
+}
+
+// ─── Услуги (глубокий каталог) ───────────────────────────────────────────────
+
+const SERVICE_COLS = 'id, category_id, slug, name_ru, name_kk, popular';
+
+export async function getServices(): Promise<Service[]> {
+  const { data } = await supabase
+    .from('services')
+    .select(SERVICE_COLS)
+    .order('name_ru');
+  return (data ?? []) as Service[];
+}
+
+export async function getService(slug: string): Promise<Service | null> {
+  const { data } = await supabase
+    .from('services')
+    .select(SERVICE_COLS)
+    .eq('slug', slug)
+    .maybeSingle();
+  return (data as Service) ?? null;
+}
+
+export async function getServicesByCategory(
+  categoryId: number,
+): Promise<Service[]> {
+  const { data } = await supabase
+    .from('services')
+    .select(SERVICE_COLS)
+    .eq('category_id', categoryId)
+    .order('name_ru');
+  return (data ?? []) as Service[];
 }
 
 // ─── Компании (ТОО/ИП) ───────────────────────────────────────────────────────

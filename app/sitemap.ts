@@ -1,12 +1,16 @@
 import type { MetadataRoute } from 'next';
-import { getCategories } from '@/lib/data';
+import { getCategories, getServices } from '@/lib/data';
 
 const SITE = 'https://jondey.kz';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const categories = await getCategories();
+  const [categories, services] = await Promise.all([
+    getCategories(),
+    getServices(),
+  ]);
   const staticUrls: MetadataRoute.Sitemap = [
     { url: `${SITE}/`, changeFrequency: 'daily', priority: 1 },
+    { url: `${SITE}/uslugi`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${SITE}/mastera`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${SITE}/kompanii`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${SITE}/zayavki`, changeFrequency: 'hourly', priority: 0.9 },
@@ -17,5 +21,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: 'daily',
     priority: 0.8,
   }));
-  return [...staticUrls, ...catUrls];
+  // Каждая услуга — отдельная SEO-страница (long-tail трафик из Google).
+  const serviceUrls: MetadataRoute.Sitemap = services.map((s) => ({
+    url: `${SITE}/uslugi/${s.slug}`,
+    changeFrequency: 'weekly',
+    priority: 0.7,
+  }));
+  return [...staticUrls, ...catUrls, ...serviceUrls];
 }
