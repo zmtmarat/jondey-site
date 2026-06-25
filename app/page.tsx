@@ -64,16 +64,18 @@ export default async function HomePage() {
             Сравните отзывы и рейтинги и выберите лучшего. Без обзвона
             десятков объявлений.
           </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <div className="mt-9 flex flex-wrap justify-center gap-3">
             <Link
               href="/mastera"
-              className="rounded-xl bg-white text-[#0d47a1] px-6 py-3 font-semibold hover:bg-slate-100 transition"
+              style={{ backgroundColor: '#ffb300', color: '#0d2c5c' }}
+              className="rounded-xl px-7 py-3.5 font-bold shadow-lg shadow-black/20 hover:brightness-105 transition"
             >
               Найти мастера
             </Link>
             <Link
               href="/skachat"
-              className="rounded-xl bg-brand-dark/40 ring-1 ring-white/40 px-6 py-3 font-semibold hover:bg-brand-dark/60 transition"
+              style={{ color: '#ffffff' }}
+              className="rounded-xl bg-white/10 px-7 py-3.5 font-semibold ring-1 ring-white/50 backdrop-blur hover:bg-white/20 transition"
             >
               Скачать приложение
             </Link>
@@ -93,13 +95,13 @@ export default async function HomePage() {
       </section>
 
       <div className="mx-auto max-w-6xl px-4">
-        <div className="-mt-10 mb-2 rounded-2xl overflow-hidden shadow-xl relative aspect-[16/9] sm:aspect-[2/1]">
+        <div className="-mt-12 mb-2 rounded-3xl overflow-hidden shadow-2xl ring-1 ring-black/5 relative aspect-[16/10] sm:aspect-[12/5]">
           <Image
             src="/images/team.png"
             alt="Команда проверенных мастеров Jondey"
             fill
             priority
-            className="object-cover"
+            className="object-cover object-[50%_28%]"
             sizes="100vw"
           />
         </div>
