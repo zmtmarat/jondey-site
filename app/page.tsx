@@ -54,20 +54,20 @@ export default async function HomePage() {
           aria-hidden
           className="pointer-events-none absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-white/10 blur-3xl"
         />
-        <div className="relative mx-auto max-w-6xl px-4 pt-8 pb-14 text-center">
+        <div className="relative mx-auto max-w-6xl px-4 pt-6 pb-12 text-center">
           <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-sm font-medium ring-1 ring-white/25">
             ⚡ Единый сервис ремонта и услуг в Казахстане
           </span>
-          <h1 className="mt-5 text-4xl sm:text-6xl font-extrabold leading-[1.05]">
+          <h1 className="mt-4 text-4xl sm:text-6xl font-extrabold leading-[1.05]">
             Ремонт всего —
             <br className="hidden sm:block" /> в одном приложении
           </h1>
-          <p className="mt-5 text-lg text-white/90 max-w-2xl mx-auto">
+          <p className="mt-4 text-lg text-white/90 max-w-2xl mx-auto">
             Сантехника, электрика, техника, авто, уборка и доставка по всему
             Казахстану. Опишите задачу и назовите свою цену — мастера
             откликнутся сами, без обзвона десятков объявлений.
           </p>
-          <div className="mt-9 flex flex-wrap justify-center gap-3">
+          <div className="mt-7 flex flex-wrap justify-center gap-3">
             <Link
               href="/sozdat-zayavku"
               style={{ backgroundColor: '#ffb300', color: '#0d2c5c' }}
@@ -83,7 +83,7 @@ export default async function HomePage() {
               Найти мастера
             </Link>
           </div>
-          <div className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-white/80">
+          <div className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-white/80">
             <span className="inline-flex items-center gap-1.5">
               ✓ Проверенные исполнители
             </span>
@@ -98,7 +98,7 @@ export default async function HomePage() {
       </section>
 
       <div className="mx-auto max-w-6xl px-4">
-        <div className="-mt-12 mb-2 rounded-3xl overflow-hidden shadow-2xl ring-1 ring-black/5 relative aspect-[16/10] sm:aspect-[12/5]">
+        <div className="-mt-16 mb-2 rounded-3xl overflow-hidden shadow-2xl ring-1 ring-black/5 relative aspect-[16/10] sm:aspect-[12/5]">
           <Image
             src="/images/team.png"
             alt="Команда проверенных мастеров Jondey"
