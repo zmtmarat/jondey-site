@@ -49,6 +49,14 @@ export default async function MasterPage({
     .filter(Boolean) as Category[];
 
   const hasRating = master.avg_rating != null && master.review_count > 0;
+  const stats: { value: string; label: string }[] = [];
+  if (hasRating)
+    stats.push({ value: `${master.avg_rating!.toFixed(1)} ★`, label: 'рейтинг' });
+  if (master.completed_orders > 0)
+    stats.push({ value: String(master.completed_orders), label: 'заказов' });
+  if (about?.experience_years)
+    stats.push({ value: String(about.experience_years), label: 'лет опыта' });
+
   const jsonLd: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'Person',
@@ -95,94 +103,98 @@ export default async function MasterPage({
         / <span className="text-slate-700">{name}</span>
       </nav>
 
-      <div className="rounded-2xl bg-white border border-slate-200 p-6">
-        <div className="flex gap-4 items-center">
+      {/* Премиальная шапка-градиент (единый стиль с приложением) */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand to-[#0d2c5c] text-white p-7 sm:p-9 shadow-xl text-center">
+        <div className="mx-auto w-fit rounded-full bg-white p-1">
           {master.avatar_url ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={master.avatar_url}
               alt={name}
-              className="w-20 h-20 rounded-full object-cover"
+              className="w-24 h-24 rounded-full object-cover"
             />
           ) : (
-            <div className="w-20 h-20 rounded-full bg-brand text-white grid place-items-center text-3xl font-bold">
+            <div className="w-24 h-24 rounded-full bg-accent grid place-items-center text-4xl font-bold text-brand-dark">
               {name[0]?.toUpperCase()}
             </div>
           )}
-          <div>
-            <h1 className="text-2xl font-extrabold flex items-center gap-2">
-              {name}
-              {master.verified && (
-                <span title="Проверенный мастер" className="text-brand text-xl">
-                  ✓
-                </span>
-              )}
-            </h1>
-            <div className="text-slate-500 mt-1">
-              {master.avg_rating != null && master.review_count > 0 ? (
-                <span className="inline-flex items-center gap-2">
-                  <Stars rating={master.avg_rating} />
-                  {ratingText(master.avg_rating, master.review_count)}
-                </span>
-              ) : (
-                'Новый мастер'
-              )}
-            </div>
-            {master.completed_orders > 0 && (
-              <div className="text-sm text-slate-400 mt-0.5">
-                Выполнено заказов: {master.completed_orders}
+        </div>
+        <h1 className="mt-3 text-2xl sm:text-3xl font-extrabold flex items-center justify-center gap-2">
+          {name}
+          {master.verified && (
+            <span title="Проверенный мастер" className="text-accent text-2xl">
+              ✓
+            </span>
+          )}
+        </h1>
+        <div className="mt-1.5 text-white/85">
+          {hasRating ? (
+            <span className="inline-flex items-center gap-2">
+              <Stars rating={master.avg_rating!} />
+              {ratingText(master.avg_rating, master.review_count)}
+            </span>
+          ) : (
+            'Новый мастер'
+          )}
+        </div>
+
+        {stats.length > 0 && (
+          <div className="mt-5 mx-auto max-w-md flex rounded-2xl bg-white/12 divide-x divide-white/15 overflow-hidden">
+            {stats.map((s) => (
+              <div key={s.label} className="flex-1 px-3 py-3">
+                <div className="text-lg font-bold">{s.value}</div>
+                <div className="text-[11px] text-white/70">{s.label}</div>
               </div>
-            )}
-          </div>
-        </div>
-
-        <div className="mt-5">
-          <Link
-            href="/skachat"
-            className="inline-flex rounded-xl bg-brand text-white px-5 py-2.5 font-semibold hover:bg-brand-dark transition"
-          >
-            📲 Связаться через приложение
-          </Link>
-        </div>
-
-        {(about?.experience_years || about?.work_mode || about?.about) && (
-          <div className="mt-6 border-t border-slate-100 pt-5">
-            <h2 className="font-bold mb-2">
-              О мастере
-              {about?.experience_years
-                ? ` · опыт ${about.experience_years} лет`
-                : ''}
-            </h2>
-            {about?.work_mode && (
-              <p className="text-sm text-slate-600">
-                🚗 {workModeName(about.work_mode)}
-              </p>
-            )}
-            {about?.about && (
-              <p className="mt-2 text-slate-700 whitespace-pre-line">
-                {about.about}
-              </p>
-            )}
+            ))}
           </div>
         )}
 
-        {cats.length > 0 && (
-          <div className="mt-6 border-t border-slate-100 pt-5">
-            <h2 className="font-bold mb-3">Направления</h2>
-            <div className="flex flex-wrap gap-2">
-              {cats.map((c) => (
-                <Link
-                  key={c.id}
-                  href={`/mastera/${c.slug}`}
-                  className="text-sm bg-brand-light text-brand-dark rounded-full px-3 py-1.5 hover:bg-brand/10"
-                >
-                  {catName(c)}
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
+        <Link
+          href="/skachat"
+          style={{ backgroundColor: '#ffffff', color: '#0d2c5c' }}
+          className="mt-6 inline-flex rounded-xl px-6 py-3 font-bold shadow-lg hover:bg-slate-100 transition"
+        >
+          📲 Связаться через приложение
+        </Link>
       </div>
+
+      {(about?.experience_years || about?.work_mode || about?.about) && (
+        <div className="mt-5 rounded-2xl bg-white border border-slate-200 p-6">
+          <h2 className="font-bold mb-2">
+            О мастере
+            {about?.experience_years
+              ? ` · опыт ${about.experience_years} лет`
+              : ''}
+          </h2>
+          {about?.work_mode && (
+            <p className="text-sm text-slate-600">
+              🚗 {workModeName(about.work_mode)}
+            </p>
+          )}
+          {about?.about && (
+            <p className="mt-2 text-slate-700 whitespace-pre-line">
+              {about.about}
+            </p>
+          )}
+        </div>
+      )}
+
+      {cats.length > 0 && (
+        <div className="mt-5 rounded-2xl bg-white border border-slate-200 p-6">
+          <h2 className="font-bold mb-3">Направления</h2>
+          <div className="flex flex-wrap gap-2">
+            {cats.map((c) => (
+              <Link
+                key={c.id}
+                href={`/mastera/${c.slug}`}
+                className="text-sm bg-brand-light text-brand-dark rounded-full px-3 py-1.5 hover:bg-brand/10"
+              >
+                {catName(c)}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       <section className="mt-8">
         <h2 className="text-xl font-bold mb-4">
