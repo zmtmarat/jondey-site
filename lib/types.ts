@@ -54,6 +54,17 @@ export interface Company {
   logo_url: string | null;
   category_ids: string[];
   city_ids: string[];
+  years_on_market: number | null;
+  masters_count: number | null;
+}
+
+export interface CompanyMaster {
+  id: number;
+  company_id: string;
+  full_name: string;
+  experience_years: number | null;
+  specialization: string | null;
+  photo_url: string | null;
 }
 
 export interface Review {

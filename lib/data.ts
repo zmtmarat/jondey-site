@@ -3,6 +3,7 @@ import type {
   Category,
   City,
   Company,
+  CompanyMaster,
   Master,
   MasterAbout,
   OrderListing,
@@ -191,7 +192,7 @@ export async function getServicesByCategory(
 // ─── Компании (ТОО/ИП) ───────────────────────────────────────────────────────
 
 const COMPANY_COLS =
-  'id, name, legal_type, bin, phone, about, logo_url, category_ids, city_ids';
+  'id, name, legal_type, bin, phone, about, logo_url, category_ids, city_ids, years_on_market, masters_count';
 
 export async function getCompanies(opts: {
   categoryId?: number;
@@ -218,6 +219,17 @@ export async function getCompany(id: string): Promise<Company | null> {
     .eq('moderation_status', 'approved')
     .maybeSingle();
   return (data as Company) ?? null;
+}
+
+export async function getCompanyRoster(
+  companyId: string,
+): Promise<CompanyMaster[]> {
+  const { data } = await supabase
+    .from('company_masters')
+    .select('id, company_id, full_name, experience_years, specialization, photo_url')
+    .eq('company_id', companyId)
+    .order('created_at');
+  return (data ?? []) as CompanyMaster[];
 }
 
 export async function getOrder(id: string): Promise<OrderListing | null> {
