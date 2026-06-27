@@ -31,12 +31,18 @@ export default function Header() {
             </Link>
           ))}
         </nav>
-        <div className="ml-auto shrink-0">
+        <div className="ml-auto shrink-0 flex items-center gap-2">
           <Link
             href="/skachat"
-            className="inline-flex items-center rounded-lg bg-brand px-3 sm:px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark transition"
+            className="hidden sm:inline-flex text-sm font-medium text-slate-600 hover:text-brand"
           >
             Скачать
+          </Link>
+          <Link
+            href="/sozdat-zayavku"
+            className="inline-flex items-center rounded-lg bg-brand px-3 sm:px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark transition"
+          >
+            Создать заявку
           </Link>
         </div>
       </div>

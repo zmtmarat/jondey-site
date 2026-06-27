@@ -55,29 +55,32 @@ export default async function HomePage() {
           className="pointer-events-none absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-white/10 blur-3xl"
         />
         <div className="relative mx-auto max-w-6xl px-4 pt-8 pb-14 text-center">
-          <h1 className="text-3xl sm:text-5xl font-extrabold leading-tight">
-            Мастера по ремонту и услугам
-            <br className="hidden sm:block" /> по всему Казахстану
+          <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-sm font-medium ring-1 ring-white/25">
+            ⚡ Единый сервис ремонта и услуг в Казахстане
+          </span>
+          <h1 className="mt-5 text-4xl sm:text-6xl font-extrabold leading-[1.05]">
+            Ремонт всего —
+            <br className="hidden sm:block" /> в одном приложении
           </h1>
-          <p className="mt-4 text-lg text-white/90 max-w-2xl mx-auto">
-            Опишите задачу и назовите свою цену — мастера откликнутся сами.
-            Сравните отзывы и рейтинги и выберите лучшего. Без обзвона
-            десятков объявлений.
+          <p className="mt-5 text-lg text-white/90 max-w-2xl mx-auto">
+            Сантехника, электрика, техника, авто, уборка и доставка по всему
+            Казахстану. Опишите задачу и назовите свою цену — мастера
+            откликнутся сами, без обзвона десятков объявлений.
           </p>
           <div className="mt-9 flex flex-wrap justify-center gap-3">
             <Link
-              href="/mastera"
+              href="/sozdat-zayavku"
               style={{ backgroundColor: '#ffb300', color: '#0d2c5c' }}
               className="rounded-xl px-7 py-3.5 font-bold shadow-lg shadow-black/20 hover:brightness-105 transition"
             >
-              Найти мастера
+              Создать заявку
             </Link>
             <Link
-              href="/skachat"
+              href="/mastera"
               style={{ color: '#ffffff' }}
               className="rounded-xl bg-white/10 px-7 py-3.5 font-semibold ring-1 ring-white/50 backdrop-blur hover:bg-white/20 transition"
             >
-              Скачать приложение
+              Найти мастера
             </Link>
           </div>
           <div className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-white/80">
