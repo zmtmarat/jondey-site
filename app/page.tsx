@@ -127,32 +127,63 @@ export default async function HomePage() {
           />
         </div>
 
-        <section className="py-8">
-          <h2 className="text-2xl font-bold">Как это работает</h2>
-          <p className="text-slate-500 mt-1 mb-6">
-            Не вы ищете мастера — мастера приходят к вам.
+        <section className="py-12">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-center">
+            Как нанять подходящего мастера
+          </h2>
+          <p className="text-slate-500 mt-2 mb-10 text-center">
+            Три простых шага — и за работу. Для заказчика бесплатно.
           </p>
-          <div className="grid sm:grid-cols-3 gap-5">
+          <div className="grid sm:grid-cols-3 gap-8">
             {[
-              ['1', '📝', 'Опишите задачу и назовите цену', 'Коротко расскажите, что нужно, и укажите свой бюджет — или оставьте цену открытой.'],
-              ['2', '💬', 'Получите отклики мастеров', 'Свободные специалисты сами предложат цену и сроки. Без обзвона десятков объявлений.'],
-              ['3', '⭐', 'Выберите лучшего', 'Сравните цены, отзывы и рейтинг — и выберите того, кому доверяете.'],
-            ].map(([n, icon, title, text]) => (
-              <div key={n} className="rounded-2xl bg-white border border-slate-200 p-5">
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="grid place-items-center w-9 h-9 rounded-full bg-brand text-white font-bold">
-                    {n}
-                  </span>
-                  <span className="text-2xl">{icon}</span>
+              [
+                '/images/how/step1.png',
+                'Шаг 1',
+                'Опишите задачу и назовите цену',
+                'Бесплатно разместите заявку: что нужно сделать и сколько готовы заплатить.',
+              ],
+              [
+                '/images/how/step2.png',
+                'Шаг 2',
+                'Мастера откликаются сами',
+                'Свободные специалисты рядом предложат свою цену и сроки — без обзвона объявлений.',
+              ],
+              [
+                '/images/how/step3.png',
+                'Шаг 3',
+                'Выберите лучшего',
+                'Сравните цены, рейтинги и отзывы — и выберите того, кому доверяете.',
+              ],
+            ].map(([img, step, title, text]) => (
+              <div key={step} className="text-center">
+                <div className="relative mx-auto w-40 h-40 sm:w-44 sm:h-44">
+                  <Image
+                    src={img}
+                    alt={title}
+                    fill
+                    className="object-contain"
+                    sizes="176px"
+                  />
                 </div>
-                <h3 className="font-bold">{title}</h3>
-                <p className="text-sm text-slate-500 mt-1">{text}</p>
+                <div className="mt-2 text-sm font-bold uppercase tracking-wide text-brand">
+                  {step}
+                </div>
+                <h3 className="mt-1 text-lg font-bold">{title}</h3>
+                <p className="mt-1.5 text-sm text-slate-500 max-w-xs mx-auto">
+                  {text}
+                </p>
               </div>
             ))}
           </div>
-          <p className="mt-5 text-center text-slate-500 text-sm">
-            Для заказчика — бесплатно. Никаких звонков вслепую.
-          </p>
+          <div className="mt-10 text-center">
+            <Link
+              href="/sozdat-zayavku"
+              style={{ backgroundColor: '#ffb300', color: '#0d2c5c' }}
+              className="inline-flex rounded-xl px-7 py-3.5 font-bold shadow-lg shadow-amber-500/25 hover:brightness-105 transition"
+            >
+              Создать заявку
+            </Link>
+          </div>
         </section>
 
         <section className="py-10">
