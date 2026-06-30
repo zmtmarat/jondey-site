@@ -6,6 +6,7 @@ import CategoryGrid from '@/components/CategoryGrid';
 import MasterCard from '@/components/MasterCard';
 import OrderCard from '@/components/OrderCard';
 import JsonLd from '@/components/JsonLd';
+import { catIcon, catName } from '@/lib/labels';
 
 const FAQ: [string, string][] = [
   [
@@ -94,6 +95,22 @@ export default async function HomePage() {
               💸 Без предоплаты, для заказчика бесплатно
             </span>
           </div>
+
+          {/* Быстрый вход по категориям — заполняет hero и ведёт в каталог */}
+          {categories.length > 0 && (
+            <div className="mt-8 flex flex-wrap justify-center gap-2 max-w-3xl mx-auto">
+              {categories.slice(0, 10).map((c) => (
+                <Link
+                  key={c.id}
+                  href={`/mastera/${c.slug}`}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-white/12 px-3.5 py-1.5 text-sm font-medium text-white ring-1 ring-white/25 backdrop-blur hover:bg-white/25 transition"
+                >
+                  <span className="text-base">{catIcon(c.slug)}</span>
+                  {catName(c)}
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
