@@ -84,16 +84,9 @@ export default async function HomePage() {
           </p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             <Link
-              href="/sozdat-zayavku"
+              href="/mastera"
               style={{ backgroundColor: '#ffb300', color: '#0d2c5c' }}
               className="rounded-xl px-7 py-3.5 font-bold shadow-lg shadow-amber-500/25 hover:brightness-105 transition"
-            >
-              Создать заявку
-            </Link>
-            <Link
-              href="/mastera"
-              style={{ color: '#1f2937' }}
-              className="rounded-xl bg-white px-7 py-3.5 font-semibold ring-1 ring-slate-300 hover:bg-slate-50 transition"
             >
               Найти мастера
             </Link>
