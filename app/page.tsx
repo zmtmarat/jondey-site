@@ -116,7 +116,7 @@ export default async function HomePage() {
       </section>
 
       <div className="mx-auto max-w-6xl px-4">
-        <div className="-mt-16 mb-2 rounded-3xl overflow-hidden shadow-2xl ring-1 ring-black/5 relative aspect-[16/10] sm:aspect-[12/5]">
+        <div className="mt-4 mb-2 rounded-3xl overflow-hidden shadow-2xl ring-1 ring-black/5 relative aspect-[16/10] sm:aspect-[12/5]">
           <Image
             src="/images/team.png"
             alt="Команда проверенных мастеров Jondey"
