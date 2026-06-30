@@ -7,6 +7,7 @@ const NAV = [
   ['/dostavka', 'Доставка'],
   ['/kompanii', 'Компании'],
   ['/zayavki', 'Заявки'],
+  ['/forum', 'Обсуждения'],
 ] as const;
 
 export default function Header() {

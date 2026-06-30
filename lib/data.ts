@@ -4,6 +4,8 @@ import type {
   City,
   Company,
   CompanyMaster,
+  ForumComment,
+  ForumTopic,
   Master,
   MasterAbout,
   OrderListing,
@@ -240,4 +242,48 @@ export async function getOrder(id: string): Promise<OrderListing | null> {
     .eq('status', 'published')
     .maybeSingle();
   return (data as OrderListing) ?? null;
+}
+
+// ─── Форум / обсуждения ──────────────────────────────────────────────────────
+
+export async function getForumTopics(limit = 50): Promise<ForumTopic[]> {
+  const { data } = await supabase
+    .from('forum_topics')
+    .select('id, author_name, title, body, image_url, created_at, forum_comments(count)')
+    .eq('status', 'visible')
+    .order('created_at', { ascending: false })
+    .limit(limit);
+  return ((data ?? []) as Record<string, unknown>[]).map((t) => ({
+    id: t.id as number,
+    author_name: (t.author_name as string) ?? null,
+    title: t.title as string,
+    body: (t.body as string) ?? null,
+    image_url: (t.image_url as string) ?? null,
+    created_at: (t.created_at as string) ?? null,
+    comment_count:
+      (Array.isArray(t.forum_comments) && t.forum_comments[0]
+        ? (t.forum_comments[0] as { count: number }).count
+        : 0) ?? 0,
+  }));
+}
+
+export async function getForumTopic(id: string): Promise<ForumTopic | null> {
+  const { data } = await supabase
+    .from('forum_topics')
+    .select('id, author_name, title, body, image_url, created_at')
+    .eq('id', id)
+    .eq('status', 'visible')
+    .maybeSingle();
+  return (data as ForumTopic) ?? null;
+}
+
+export async function getForumComments(
+  topicId: string,
+): Promise<ForumComment[]> {
+  const { data } = await supabase
+    .from('forum_comments')
+    .select('id, topic_id, author_name, body, created_at')
+    .eq('topic_id', topicId)
+    .order('created_at', { ascending: true });
+  return (data ?? []) as ForumComment[];
 }

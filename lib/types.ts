@@ -90,3 +90,21 @@ export interface OrderListing {
   brand: string | null;
   created_at: string | null;
 }
+
+export interface ForumTopic {
+  id: number;
+  author_name: string | null;
+  title: string;
+  body: string | null;
+  image_url: string | null;
+  created_at: string | null;
+  comment_count?: number;
+}
+
+export interface ForumComment {
+  id: number;
+  topic_id: number;
+  author_name: string | null;
+  body: string;
+  created_at: string | null;
+}
