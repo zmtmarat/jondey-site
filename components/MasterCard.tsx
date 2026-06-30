@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Category, Master } from '@/lib/types';
 import { catName, ratingText } from '@/lib/labels';
 import Stars from './Stars';
+import RankBadge from './RankBadge';
 
 export default function MasterCard({
   master,
@@ -37,10 +38,14 @@ export default function MasterCard({
           <div className="flex items-center gap-1.5">
             <span className="font-semibold truncate">{name}</span>
             {master.verified && (
-              <span title="Проверенный мастер" className="text-brand">
+              <span title="Проверенный мастер" className="text-brand shrink-0">
                 ✓
               </span>
             )}
+            <RankBadge
+              categoryCount={master.category_ids.length}
+              className="shrink-0"
+            />
           </div>
           <div className="text-sm text-slate-500 mt-0.5">
             {master.avg_rating != null && master.review_count > 0 ? (
