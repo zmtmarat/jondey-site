@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
 import type { Category, City } from '@/lib/types';
 import { catName, cityName, catImage, catIcon } from '@/lib/labels';
@@ -157,7 +158,7 @@ export default function RequestForm({
           placeholder="🔍 Поиск: сантехник, ремонт, доставка…"
           className={field + ' mb-3'}
         />
-        <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5 max-h-72 overflow-y-auto p-0.5">
+        <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 max-h-64 overflow-y-auto p-0.5">
           {filteredCats.map((c) => {
             const img = catImage(c.slug);
             const active = String(c.id) === categoryId;
@@ -165,32 +166,35 @@ export default function RequestForm({
               <button
                 key={c.id}
                 type="button"
+                title={catName(c)}
                 onClick={() => setCategoryId(active ? '' : String(c.id))}
                 className={
-                  'group relative overflow-hidden rounded-xl aspect-square ring-2 transition ' +
+                  'group relative overflow-hidden rounded-lg aspect-square ring-2 transition ' +
                   (active
                     ? 'ring-brand'
                     : 'ring-transparent hover:ring-brand/40')
                 }
               >
                 {img ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
+                  <Image
                     src={img}
                     alt={catName(c)}
-                    className="absolute inset-0 h-full w-full object-cover"
+                    fill
+                    loading="lazy"
+                    sizes="(max-width: 640px) 22vw, 110px"
+                    className="object-cover"
                   />
                 ) : (
-                  <div className="absolute inset-0 grid place-items-center bg-brand-light text-3xl">
+                  <div className="absolute inset-0 grid place-items-center bg-brand-light text-2xl">
                     {catIcon(c.slug)}
                   </div>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-                <span className="absolute bottom-1 left-1.5 right-1.5 text-left text-[11px] font-semibold leading-tight text-white drop-shadow">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+                <span className="absolute bottom-0.5 left-1 right-1 text-left text-[10px] font-semibold leading-tight text-white drop-shadow line-clamp-2">
                   {catName(c)}
                 </span>
                 {active && (
-                  <span className="absolute top-1 right-1 grid h-5 w-5 place-items-center rounded-full bg-brand text-[11px] text-white">
+                  <span className="absolute top-0.5 right-0.5 grid h-4 w-4 place-items-center rounded-full bg-brand text-[10px] text-white">
                     ✓
                   </span>
                 )}
