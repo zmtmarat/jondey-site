@@ -67,10 +67,21 @@ export default async function CategoryMastersPage({
       },
     ],
   };
+  const serviceLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: `${name} в Казахстане`,
+    serviceType: name,
+    url: `${SITE_URL}/mastera/${cat.slug}`,
+    areaServed: { '@type': 'Country', name: 'Kazakhstan' },
+    provider: { '@type': 'Organization', name: 'Jondey', url: SITE_URL },
+    audience: { '@type': 'Audience', audienceType: 'Жители Казахстана' },
+  };
 
   return (
     <div>
       <JsonLd data={breadcrumb} />
+      <JsonLd data={serviceLd} />
       {/* Фото-хедер категории */}
       <section className="relative h-56 sm:h-72 w-full overflow-hidden bg-brand">
         {img && (
