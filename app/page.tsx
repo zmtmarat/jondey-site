@@ -31,6 +31,20 @@ const FAQ: [string, string][] = [
   ],
 ];
 
+// Крупные города Казахстана по населению — показываем их первыми в блоке
+// «Найдите специалистов в вашем районе».
+const MAJOR_CITIES = [
+  'Алматы', 'Шымкент', 'Астана', 'Нур-Султан', 'Караганда', 'Актобе',
+  'Тараз', 'Павлодар', 'Усть-Каменогорск', 'Семей', 'Атырау', 'Костанай',
+  'Кызылорда', 'Уральск', 'Петропавловск', 'Актау', 'Темиртау', 'Туркестан',
+  'Кокшетау', 'Талдыкорган', 'Экибастуз', 'Рудный', 'Жезказган',
+];
+function cityRank(name: string): number {
+  const n = name.toLowerCase();
+  const i = MAJOR_CITIES.findIndex((m) => n.includes(m.toLowerCase()));
+  return i === -1 ? 999 : i;
+}
+
 export const revalidate = 120; // обновлять витрину раз в 2 минуты
 
 export default async function HomePage() {
@@ -311,7 +325,10 @@ export default async function HomePage() {
               Мастера по всему Казахстану — выберите свой город.
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-3">
-              {cities.slice(0, 23).map((c) => (
+              {[...cities]
+                .sort((a, b) => cityRank(cityName(a)) - cityRank(cityName(b)))
+                .slice(0, 23)
+                .map((c) => (
                 <Link
                   key={c.id}
                   href={`/mastera?city=${c.id}`}
