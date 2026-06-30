@@ -74,6 +74,7 @@ const CATEGORY_IMAGES: Record<string, string> = {
   leather: '/images/categories/leather.png',
   cleaning: '/images/cleaning.png',
   labor: '/images/movers.png',
+  furniture: '/images/categories/furniture.jpg',
 };
 
 export function catImage(slug?: string | null): string | null {
@@ -97,6 +98,7 @@ export function catIcon(slug?: string | null): string {
     equipment: '🛠️',
     cleaning: '🧹',
     labor: '📦',
+    furniture: '🪑',
   };
   return map[slug ?? ''] ?? '🛠️';
 }
