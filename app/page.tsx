@@ -45,25 +45,25 @@ export default async function HomePage() {
 
   return (
     <div>
-      <section className="relative overflow-hidden bg-gradient-to-b from-brand to-brand-dark text-white">
-        {/* Декоративное технологичное свечение */}
+      <section className="relative overflow-hidden bg-white">
+        {/* Мягкие тёплые блики, без синего фона */}
         <div
           aria-hidden
-          className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-accent/20 blur-3xl"
+          className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-accent/15 blur-3xl"
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-white/10 blur-3xl"
+          className="pointer-events-none absolute top-12 -left-24 h-72 w-72 rounded-full bg-amber-100/50 blur-3xl"
         />
-        <div className="relative mx-auto max-w-6xl px-4 pt-6 pb-12 text-center">
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-sm font-medium ring-1 ring-white/25">
+        <div className="relative mx-auto max-w-6xl px-4 pt-8 pb-10 text-center">
+          <span className="inline-flex items-center gap-2 rounded-full bg-brand/10 px-4 py-1.5 text-sm font-medium text-brand ring-1 ring-brand/15">
             ⚡ Единый сервис ремонта и услуг в Казахстане
           </span>
-          <h1 className="mt-4 text-4xl sm:text-6xl font-extrabold leading-[1.05]">
+          <h1 className="mt-4 text-4xl sm:text-6xl font-extrabold leading-[1.05] text-slate-900">
             Ремонт всего —
             <br className="hidden sm:block" /> в одном приложении
           </h1>
-          <p className="mt-4 text-lg text-white/90 max-w-2xl mx-auto">
+          <p className="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
             Сантехника, электрика, техника, авто, уборка и доставка по всему
             Казахстану. Опишите задачу и назовите свою цену — мастера
             откликнутся сами, без обзвона десятков объявлений.
@@ -72,19 +72,19 @@ export default async function HomePage() {
             <Link
               href="/sozdat-zayavku"
               style={{ backgroundColor: '#ffb300', color: '#0d2c5c' }}
-              className="rounded-xl px-7 py-3.5 font-bold shadow-lg shadow-black/20 hover:brightness-105 transition"
+              className="rounded-xl px-7 py-3.5 font-bold shadow-lg shadow-amber-500/25 hover:brightness-105 transition"
             >
               Создать заявку
             </Link>
             <Link
               href="/mastera"
-              style={{ color: '#ffffff' }}
-              className="rounded-xl bg-white/10 px-7 py-3.5 font-semibold ring-1 ring-white/50 backdrop-blur hover:bg-white/20 transition"
+              style={{ color: '#1f2937' }}
+              className="rounded-xl bg-white px-7 py-3.5 font-semibold ring-1 ring-slate-300 hover:bg-slate-50 transition"
             >
               Найти мастера
             </Link>
           </div>
-          <div className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-white/80">
+          <div className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-slate-500">
             <span className="inline-flex items-center gap-1.5">
               ✓ Проверенные исполнители
             </span>
@@ -96,14 +96,15 @@ export default async function HomePage() {
             </span>
           </div>
 
-          {/* Быстрый вход по категориям — заполняет hero и ведёт в каталог */}
+          {/* Быстрый вход по категориям — лёгкие чипы на белом */}
           {categories.length > 0 && (
             <div className="mt-8 flex flex-wrap justify-center gap-2 max-w-3xl mx-auto">
               {categories.slice(0, 10).map((c) => (
                 <Link
                   key={c.id}
                   href={`/mastera/${c.slug}`}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-white/12 px-3.5 py-1.5 text-sm font-medium text-white ring-1 ring-white/25 backdrop-blur hover:bg-white/25 transition"
+                  style={{ color: '#334155' }}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3.5 py-1.5 text-sm font-medium ring-1 ring-slate-200 hover:bg-slate-200 transition"
                 >
                   <span className="text-base">{catIcon(c.slug)}</span>
                   {catName(c)}
