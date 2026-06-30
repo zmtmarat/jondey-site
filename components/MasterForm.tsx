@@ -29,6 +29,7 @@ export default function MasterForm({
   const [phone, setPhone] = useState('');
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState('');
+  const [hp, setHp] = useState(''); // honeypot — заполняют только боты
 
   const filteredCats = useMemo(() => {
     const q = catQuery.trim().toLowerCase();
@@ -100,6 +101,11 @@ export default function MasterForm({
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
+    // Honeypot: заполнено скрытое поле → бот. Тихо «успех», без записи.
+    if (hp) {
+      setStatus('done');
+      return;
+    }
     if (name.trim().length < 2) {
       setError('Укажите ваше имя.');
       return;
@@ -154,6 +160,17 @@ export default function MasterForm({
 
   return (
     <form onSubmit={submit} className="space-y-5">
+      {/* Honeypot — невидим людям, ловит ботов. */}
+      <div aria-hidden style={{ position: 'absolute', left: '-9999px' }}>
+        <input
+          type="text"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          value={hp}
+          onChange={(e) => setHp(e.target.value)}
+        />
+      </div>
       {/* Направления — мультивыбор, с живым статусом */}
       <div>
         <div className="flex items-center justify-between mb-1.5">

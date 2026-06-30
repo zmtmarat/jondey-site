@@ -28,6 +28,7 @@ export default function RequestForm({
   const [phone, setPhone] = useState('');
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState('');
+  const [hp, setHp] = useState(''); // honeypot — заполняют только боты
 
   const num = (v: string) => {
     const d = v.replace(/[^0-9]/g, '');
@@ -96,6 +97,11 @@ export default function RequestForm({
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
+    // Honeypot: если скрытое поле заполнено — это бот. Тихо «успех», без записи.
+    if (hp) {
+      setStatus('done');
+      return;
+    }
     if (description.trim().length < 5) {
       setError('Опишите задачу подробнее (хотя бы пару слов).');
       return;
@@ -149,6 +155,17 @@ export default function RequestForm({
 
   return (
     <form onSubmit={submit} className="space-y-5">
+      {/* Honeypot — невидим людям, ловит ботов. Не трогает обычных пользователей. */}
+      <div aria-hidden style={{ position: 'absolute', left: '-9999px' }}>
+        <input
+          type="text"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          value={hp}
+          onChange={(e) => setHp(e.target.value)}
+        />
+      </div>
       {/* Категория — фото-сетка с поиском, как в приложении */}
       <div>
         <label className="block text-sm font-medium mb-1.5">Категория</label>

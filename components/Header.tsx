@@ -7,7 +7,6 @@ const NAV = [
   ['/dostavka', 'Доставка'],
   ['/kompanii', 'Компании'],
   ['/zayavki', 'Заявки'],
-  ['/stat-masterom', 'Стать мастером'],
 ] as const;
 
 export default function Header() {
@@ -34,14 +33,14 @@ export default function Header() {
         </nav>
         <div className="ml-auto shrink-0 flex items-center gap-2">
           <Link
-            href="/skachat"
-            className="hidden sm:inline-flex text-sm font-medium text-slate-600 hover:text-brand"
+            href="/stat-masterom"
+            className="inline-flex items-center rounded-lg border border-brand px-2.5 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-brand hover:bg-brand/5 transition"
           >
-            Скачать
+            Стать мастером
           </Link>
           <Link
             href="/sozdat-zayavku"
-            className="inline-flex items-center rounded-lg bg-brand px-3 sm:px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark transition"
+            className="inline-flex items-center rounded-lg bg-brand px-2.5 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-white hover:bg-brand-dark transition"
           >
             Создать заявку
           </Link>
