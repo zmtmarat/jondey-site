@@ -13,6 +13,11 @@ export const metadata: Metadata = {
   },
   description:
     'Найдите проверенного мастера по ремонту техники, сантехники, авто и бытовым услугам в Казахстане. Отзывы, рейтинги, прямой контакт.',
+  applicationName: 'Jondey',
+  category: 'services',
+  authors: [{ name: 'Jondey' }],
+  creator: 'Jondey',
+  publisher: 'Jondey',
   keywords: [
     'мастер на дом',
     'ремонт техники',
@@ -21,6 +26,8 @@ export const metadata: Metadata = {
     'услуги Казахстан',
     'Алматы',
     'Астана',
+    'приложение услуг Казахстан',
+    'заказать мастера',
   ],
   openGraph: {
     type: 'website',
@@ -47,11 +54,21 @@ export default function RootLayout({
             '@context': 'https://schema.org',
             '@type': 'Organization',
             name: 'Jondey',
+            alternateName: 'Жондеу',
             url: SITE_URL,
             logo: `${SITE_URL}/logo.png`,
+            slogan: 'Ремонт всего — в одном приложении',
             description:
               'Маркетплейс услуг в Казахстане: ремонт, доставка, клининг, грузоперевозки. Назовите цену — исполнители откликнутся сами.',
+            foundingDate: '2025',
             areaServed: { '@type': 'Country', name: 'Kazakhstan' },
+            knowsLanguage: ['ru', 'kk'],
+            contactPoint: {
+              '@type': 'ContactPoint',
+              contactType: 'customer support',
+              url: `${SITE_URL}/skachat`,
+              availableLanguage: ['Russian', 'Kazakh'],
+            },
           }}
         />
         <JsonLd
@@ -66,6 +83,36 @@ export default function RootLayout({
               target: `${SITE_URL}/mastera?q={search_term_string}`,
               'query-input': 'required name=search_term_string',
             },
+          }}
+        />
+        <JsonLd
+          data={{
+            '@context': 'https://schema.org',
+            '@type': 'MobileApplication',
+            name: 'Jondey',
+            operatingSystem: 'Android, iOS',
+            applicationCategory: 'LifestyleApplication',
+            url: SITE_URL,
+            downloadUrl: `${SITE_URL}/skachat`,
+            installUrl: `${SITE_URL}/skachat`,
+            inLanguage: ['ru', 'kk'],
+            description:
+              'Приложение Jondey: закажите услугу или находите клиентов как исполнитель. Опишите задачу и назовите цену — мастера откликнутся сами. Чат, рейтинги, отзывы и отслеживание «мастер в пути» на карте.',
+            featureList: [
+              'Заявка на услугу с вашей ценой',
+              'Отклики проверенных мастеров и компаний',
+              'Чат заказчик-исполнитель',
+              'Рейтинги и реальные отзывы',
+              'Отслеживание мастера на карте',
+              'Доставка с авто',
+            ],
+            offers: {
+              '@type': 'Offer',
+              price: '0',
+              priceCurrency: 'KZT',
+            },
+            areaServed: { '@type': 'Country', name: 'Kazakhstan' },
+            publisher: { '@type': 'Organization', name: 'Jondey' },
           }}
         />
         <Header />
