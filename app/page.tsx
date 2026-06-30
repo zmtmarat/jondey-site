@@ -6,7 +6,7 @@ import CategoryGrid from '@/components/CategoryGrid';
 import MasterCard from '@/components/MasterCard';
 import OrderCard from '@/components/OrderCard';
 import JsonLd from '@/components/JsonLd';
-import { catIcon, catName } from '@/lib/labels';
+import { catIcon, catName, cityName } from '@/lib/labels';
 
 const FAQ: [string, string][] = [
   [
@@ -270,6 +270,35 @@ export default async function HomePage() {
             ))}
           </div>
         </section>
+
+        {cities.length > 0 && (
+          <section className="py-10 border-t border-slate-100">
+            <h2 className="text-2xl font-bold mb-1">
+              Найдите специалистов в вашем районе
+            </h2>
+            <p className="text-slate-500 mb-6">
+              Мастера по всему Казахстану — выберите свой город.
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-3">
+              {cities.slice(0, 23).map((c) => (
+                <Link
+                  key={c.id}
+                  href={`/mastera?city=${c.id}`}
+                  style={{ color: '#475569' }}
+                  className="text-sm hover:text-brand transition"
+                >
+                  {cityName(c)}
+                </Link>
+              ))}
+              <Link
+                href="/mastera"
+                className="text-sm font-semibold text-brand hover:underline"
+              >
+                Больше городов +
+              </Link>
+            </div>
+          </section>
+        )}
 
         <JsonLd
           data={{
