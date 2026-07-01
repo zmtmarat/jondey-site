@@ -92,20 +92,23 @@ export default async function HomePage() {
             </span>
           </div>
 
-          {/* Быстрый вход по категориям — лёгкие чипы на белом */}
+          {/* Быстрый вход по категориям: на мобиле — одна прокручиваемая
+              строка (компактно), на десктопе — в несколько строк по центру. */}
           {categories.length > 0 && (
-            <div className="mt-8 flex flex-wrap justify-center gap-2 max-w-3xl mx-auto">
-              {categories.slice(0, 10).map((c) => (
-                <Link
-                  key={c.id}
-                  href={`/mastera/${c.slug}`}
-                  style={{ color: '#334155' }}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3.5 py-1.5 text-sm font-medium ring-1 ring-slate-200 hover:bg-slate-200 transition"
-                >
-                  <span className="text-base">{catIcon(c.slug)}</span>
-                  {catName(c)}
-                </Link>
-              ))}
+            <div className="mt-6 sm:mt-8 -mx-4 sm:mx-auto sm:max-w-3xl">
+              <div className="flex gap-2 overflow-x-auto px-4 sm:flex-wrap sm:justify-center sm:overflow-visible sm:px-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                {categories.slice(0, 12).map((c) => (
+                  <Link
+                    key={c.id}
+                    href={`/mastera/${c.slug}`}
+                    style={{ color: '#334155' }}
+                    className="shrink-0 inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-slate-100 px-3 py-1.5 text-sm font-medium ring-1 ring-slate-200 hover:bg-slate-200 transition"
+                  >
+                    <span className="text-base">{catIcon(c.slug)}</span>
+                    {catName(c)}
+                  </Link>
+                ))}
+              </div>
             </div>
           )}
         </div>
