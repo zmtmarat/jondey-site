@@ -6,9 +6,10 @@ import CategoryGrid from '@/components/CategoryGrid';
 import MasterCard from '@/components/MasterCard';
 import OrderCard from '@/components/OrderCard';
 import JsonLd from '@/components/JsonLd';
-import { catIcon, catName, cityName } from '@/lib/labels';
+import { cityName } from '@/lib/labels';
 import { cityRank } from '@/lib/cities';
 import HeroDecor from '@/components/HeroDecor';
+import CategoryMarquee from '@/components/CategoryMarquee';
 
 const FAQ: [string, string][] = [
   [
@@ -75,8 +76,21 @@ export default async function HomePage() {
             <Link
               href="/mastera"
               style={{ backgroundColor: '#ffb300', color: '#0d2c5c' }}
-              className="rounded-xl px-7 py-3.5 font-bold shadow-lg shadow-amber-500/25 hover:brightness-105 transition"
+              className="inline-flex items-center gap-2 rounded-xl px-7 py-3.5 font-bold shadow-lg shadow-amber-500/25 hover:brightness-105 transition"
             >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#16a34a"
+                strokeWidth="2.6"
+                strokeLinecap="round"
+                aria-hidden
+              >
+                <circle cx="11" cy="11" r="7" />
+                <path d="m21 21-4.3-4.3" />
+              </svg>
               Найти мастера
             </Link>
           </div>
@@ -92,25 +106,8 @@ export default async function HomePage() {
             </span>
           </div>
 
-          {/* Быстрый вход по категориям: на мобиле — одна прокручиваемая
-              строка (компактно), на десктопе — в несколько строк по центру. */}
-          {categories.length > 0 && (
-            <div className="mt-6 sm:mt-8 -mx-4 sm:mx-auto sm:max-w-3xl">
-              <div className="flex gap-2 overflow-x-auto px-4 sm:flex-wrap sm:justify-center sm:overflow-visible sm:px-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-                {categories.slice(0, 12).map((c) => (
-                  <Link
-                    key={c.id}
-                    href={`/mastera/${c.slug}`}
-                    style={{ color: '#334155' }}
-                    className="shrink-0 inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-slate-100 px-3 py-1.5 text-sm font-medium ring-1 ring-slate-200 hover:bg-slate-200 transition"
-                  >
-                    <span className="text-base">{catIcon(c.slug)}</span>
-                    {catName(c)}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
+          {/* Автокарусель категорий — едет по кругу, все категории */}
+          <CategoryMarquee categories={categories} />
         </div>
       </section>
 

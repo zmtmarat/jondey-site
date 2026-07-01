@@ -44,6 +44,16 @@ html {
   }
 }
 
+/* Автокарусель категорий (CategoryMarquee): бесшовная петля. */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 /* Примечание: НЕ добавлять глобальное `a { color: inherit }` без @layer —
    незанесённое в слой правило перебивает утилиты Tailwind (text-brand-dark и
    т.п.) на ссылках-кнопках, и тёмный текст на белом фоне становится невидимым.
