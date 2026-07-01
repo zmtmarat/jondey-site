@@ -77,6 +77,7 @@ const CATEGORY_IMAGES: Record<string, string> = {
   furniture: '/images/categories/furniture.jpg',
   spectech: '/images/categories/spectech.jpg',
   locksmith: '/images/categories/locksmith.jpg',
+  rental: '/images/categories/rental.jpg',
 };
 
 export function catImage(slug?: string | null): string | null {
@@ -103,6 +104,7 @@ export function catIcon(slug?: string | null): string {
     furniture: '🪑',
     spectech: '🏗️',
     locksmith: '🔓',
+    rental: '🧰',
   };
   return map[slug ?? ''] ?? '🛠️';
 }
