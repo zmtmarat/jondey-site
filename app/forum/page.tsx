@@ -45,16 +45,8 @@ export default async function ForumPage() {
 
       {topics.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center text-slate-500">
-          Пока нет обсуждений. Создайте первое — спросите совета или поделитесь
-          ремонтом.
-          <div className="mt-4">
-            <Link
-              href="/forum/novoe"
-              className="inline-flex rounded-xl bg-brand px-5 py-2.5 font-semibold text-white hover:bg-brand-dark transition"
-            >
-              Создать обсуждение
-            </Link>
-          </div>
+          Пока нет обсуждений. Нажмите «+ Создать» вверху — спросите совета или
+          поделитесь своим ремонтом.
         </div>
       ) : (
         <div className="space-y-3">
