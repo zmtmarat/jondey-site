@@ -4,6 +4,8 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import JsonLd from '@/components/JsonLd';
 import SupportWidget from '@/components/SupportWidget';
+import YandexMetrica from '@/components/YandexMetrica';
+import { Analytics } from '@vercel/analytics/next';
 import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -120,6 +122,8 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <SupportWidget />
+        <YandexMetrica />
+        <Analytics />
       </body>
     </html>
   );
