@@ -26,6 +26,19 @@ export default async function CompaniesPage({
   ]);
   const catMap = new Map<number, Category>(categories.map((c) => [c.id, c]));
 
+  // Компании по категориям без дублей (каждая — в первой своей категории).
+  const shownCompanies = new Set<string>();
+  const companyGroups = categories
+    .map((cat) => {
+      const inCat = companies.filter((c) =>
+        c.category_ids.includes(String(cat.id)),
+      );
+      const fresh = inCat.filter((c) => !shownCompanies.has(c.id));
+      fresh.forEach((c) => shownCompanies.add(c.id));
+      return { cat, fresh, total: inCat.length };
+    })
+    .filter((g) => g.fresh.length > 0);
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
       <h1 className="text-3xl font-extrabold">Компании</h1>
@@ -75,34 +88,28 @@ export default async function CompaniesPage({
           </div>
         </section>
       ) : (
-        // Все компании — группируем по категориям.
+        // Все компании — группируем по категориям без дублей.
         <section className="mt-8 space-y-9">
-          {categories.map((cat) => {
-            const catCompanies = companies.filter((c) =>
-              c.category_ids.includes(String(cat.id)),
-            );
-            if (catCompanies.length === 0) return null;
-            return (
-              <div key={cat.id}>
-                <div className="flex items-end justify-between mb-3">
-                  <h2 className="text-xl font-bold">{catName(cat)}</h2>
-                  {catCompanies.length > 6 && (
-                    <Link
-                      href={`/kompanii?cat=${cat.id}`}
-                      className="text-sm text-brand font-medium hover:underline"
-                    >
-                      Все ({catCompanies.length}) →
-                    </Link>
-                  )}
-                </div>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {catCompanies.slice(0, 6).map((c) => (
-                    <CompanyCard key={c.id} company={c} catMap={catMap} />
-                  ))}
-                </div>
+          {companyGroups.map(({ cat, fresh, total }) => (
+            <div key={cat.id}>
+              <div className="flex items-end justify-between mb-3">
+                <h2 className="text-xl font-bold">{catName(cat)}</h2>
+                {total > fresh.slice(0, 6).length && (
+                  <Link
+                    href={`/kompanii?cat=${cat.id}`}
+                    className="text-sm text-brand font-medium hover:underline"
+                  >
+                    Все ({total}) →
+                  </Link>
+                )}
               </div>
-            );
-          })}
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {fresh.slice(0, 6).map((c) => (
+                  <CompanyCard key={c.id} company={c} catMap={catMap} />
+                ))}
+              </div>
+            </div>
+          ))}
         </section>
       )}
     </div>

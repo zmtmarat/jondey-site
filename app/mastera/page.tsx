@@ -29,6 +29,21 @@ export default async function MastersPage({
   ]);
   const catMap = new Map<number, Category>(categories.map((c) => [c.id, c]));
 
+  // Группируем мастеров по категориям БЕЗ дублей: каждый мастер показывается
+  // один раз — в первой своей категории (по порядку). Полный список по
+  // категории — на /mastera/[slug]. total = всего мастеров в категории.
+  const shownMasters = new Set<string>();
+  const masterGroups = categories
+    .map((cat) => {
+      const inCat = masters.filter((m) =>
+        m.category_ids.includes(String(cat.id)),
+      );
+      const fresh = inCat.filter((m) => !shownMasters.has(m.user_id));
+      fresh.forEach((m) => shownMasters.add(m.user_id));
+      return { cat, fresh, total: inCat.length };
+    })
+    .filter((g) => g.fresh.length > 0);
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
       <h1 className="text-3xl font-extrabold">Каталог мастеров</h1>
@@ -51,32 +66,26 @@ export default async function MastersPage({
         </section>
       ) : (
         <section className="mt-8 space-y-9">
-          {categories.map((cat) => {
-            const catMasters = masters.filter((m) =>
-              m.category_ids.includes(String(cat.id)),
-            );
-            if (catMasters.length === 0) return null;
-            return (
-              <div key={cat.id}>
-                <div className="flex items-end justify-between mb-3">
-                  <h2 className="text-xl font-bold">{catName(cat)}</h2>
-                  {catMasters.length > 6 && (
-                    <Link
-                      href={`/mastera/${cat.slug}`}
-                      className="text-sm text-brand font-medium hover:underline"
-                    >
-                      Все ({catMasters.length}) →
-                    </Link>
-                  )}
-                </div>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {catMasters.slice(0, 6).map((m) => (
-                    <MasterCard key={m.user_id} master={m} catMap={catMap} />
-                  ))}
-                </div>
+          {masterGroups.map(({ cat, fresh, total }) => (
+            <div key={cat.id}>
+              <div className="flex items-end justify-between mb-3">
+                <h2 className="text-xl font-bold">{catName(cat)}</h2>
+                {total > fresh.slice(0, 6).length && (
+                  <Link
+                    href={`/mastera/${cat.slug}`}
+                    className="text-sm text-brand font-medium hover:underline"
+                  >
+                    Все ({total}) →
+                  </Link>
+                )}
               </div>
-            );
-          })}
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {fresh.slice(0, 6).map((m) => (
+                  <MasterCard key={m.user_id} master={m} catMap={catMap} />
+                ))}
+              </div>
+            </div>
+          ))}
         </section>
       )}
     </div>
