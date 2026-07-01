@@ -7,6 +7,7 @@ import MasterCard from '@/components/MasterCard';
 import OrderCard from '@/components/OrderCard';
 import JsonLd from '@/components/JsonLd';
 import { catIcon, catName, cityName } from '@/lib/labels';
+import { cityRank } from '@/lib/cities';
 
 const FAQ: [string, string][] = [
   [
@@ -30,20 +31,6 @@ const FAQ: [string, string][] = [
     'Установите приложение, выберите свои направления и город — и получайте заявки рядом. Включите статус «на связи», чтобы вам приходили заказы поблизости по геолокации.',
   ],
 ];
-
-// Крупные города Казахстана по населению — показываем их первыми в блоке
-// «Найдите специалистов в вашем районе».
-const MAJOR_CITIES = [
-  'Алматы', 'Шымкент', 'Астана', 'Нур-Султан', 'Караганда', 'Актобе',
-  'Тараз', 'Павлодар', 'Усть-Каменогорск', 'Семей', 'Атырау', 'Костанай',
-  'Кызылорда', 'Уральск', 'Петропавловск', 'Актау', 'Темиртау', 'Туркестан',
-  'Кокшетау', 'Талдыкорган', 'Экибастуз', 'Рудный', 'Жезказган',
-];
-function cityRank(name: string): number {
-  const n = name.toLowerCase();
-  const i = MAJOR_CITIES.findIndex((m) => n.includes(m.toLowerCase()));
-  return i === -1 ? 999 : i;
-}
 
 export const revalidate = 120; // обновлять витрину раз в 2 минуты
 

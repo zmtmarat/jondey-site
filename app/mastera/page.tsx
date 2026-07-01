@@ -5,6 +5,7 @@ import Link from 'next/link';
 import MasterCard from '@/components/MasterCard';
 import CategoryGrid from '@/components/CategoryGrid';
 import { catName, cityName } from '@/lib/labels';
+import { isMajorCity, cityRank } from '@/lib/cities';
 
 export const revalidate = 120;
 
@@ -84,34 +85,50 @@ export default async function MastersPage({
 
 function CityFilter({ cities, active }: { cities: City[]; active?: number }) {
   if (cities.length === 0) return null;
+  const chip = (isActive: boolean) =>
+    `rounded-full px-3.5 py-1.5 text-sm border ${
+      isActive
+        ? 'bg-brand text-white border-brand'
+        : 'bg-white border-slate-200 hover:border-brand/40'
+    }`;
+  // Крупные города — сразу; мелкие — под «Больше городов».
+  const major = cities
+    .filter((c) => isMajorCity(cityName(c)))
+    .sort((a, b) => cityRank(cityName(a)) - cityRank(cityName(b)));
+  const rest = cities.filter((c) => !isMajorCity(cityName(c)));
+  const activeInRest = active != null && rest.some((c) => c.id === active);
+
   return (
     <section className="mt-8">
       <h2 className="text-lg font-semibold mb-3">Город</h2>
       <div className="flex flex-wrap gap-2">
-        <a
-          href="/mastera"
-          className={`rounded-full px-3.5 py-1.5 text-sm border ${
-            active == null
-              ? 'bg-brand text-white border-brand'
-              : 'bg-white border-slate-200 hover:border-brand/40'
-          }`}
-        >
+        <a href="/mastera" className={chip(active == null)}>
           Все города
         </a>
-        {cities.map((c) => (
-          <a
-            key={c.id}
-            href={`/mastera?city=${c.id}`}
-            className={`rounded-full px-3.5 py-1.5 text-sm border ${
-              active === c.id
-                ? 'bg-brand text-white border-brand'
-                : 'bg-white border-slate-200 hover:border-brand/40'
-            }`}
-          >
+        {major.map((c) => (
+          <a key={c.id} href={`/mastera?city=${c.id}`} className={chip(active === c.id)}>
             {cityName(c)}
           </a>
         ))}
       </div>
+      {rest.length > 0 && (
+        <details open={activeInRest} className="mt-2">
+          <summary className={`inline-flex cursor-pointer list-none ${chip(false)}`}>
+            Больше городов ({rest.length}) ▾
+          </summary>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {rest.map((c) => (
+              <a
+                key={c.id}
+                href={`/mastera?city=${c.id}`}
+                className={chip(active === c.id)}
+              >
+                {cityName(c)}
+              </a>
+            ))}
+          </div>
+        </details>
+      )}
     </section>
   );
 }
