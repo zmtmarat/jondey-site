@@ -2,23 +2,35 @@
 
 import { useEffect, useRef } from 'react';
 
-// Декоративные 3D-инструменты в пустых зонах hero. Лёгкое покачивание +
-// параллакс за мышью. Скрыто на мобиле (<lg), не мешает кликам.
+// Декоративные 3D-инструменты в hero — живой разброс (не в линию): разные
+// позиции, повороты, размеры; дальние слегка размыты/прозрачны для глубины.
+// Покачивание + параллакс за мышью. Скрыто на мобиле (<lg), не мешает кликам.
 type Tool = {
   src: string;
   pos: React.CSSProperties;
   size: number;
-  speed: number; // сила реакции на мышь
-  dur: number; // длительность покачивания, с
+  speed: number;
+  dur: number;
+  rot: number;
+  blur?: number;
+  opacity?: number;
+  flip?: boolean;
 };
 
+const B = '/images/decor';
 const TOOLS: Tool[] = [
-  { src: '/images/decor/wrench.png', pos: { top: '10%', left: '2%' }, size: 104, speed: 16, dur: 7 },
-  { src: '/images/decor/roller.png', pos: { top: '45%', left: '5%' }, size: 96, speed: -20, dur: 9 },
-  { src: '/images/decor/level.png', pos: { top: '70%', left: '3%' }, size: 118, speed: 22, dur: 8 },
-  { src: '/images/decor/drill.png', pos: { top: '13%', right: '3%' }, size: 110, speed: -15, dur: 7.5 },
-  { src: '/images/decor/hammer.png', pos: { top: '47%', right: '5%' }, size: 96, speed: 24, dur: 8.5 },
-  { src: '/images/decor/screwdriver.png', pos: { top: '68%', right: '2%' }, size: 106, speed: -12, dur: 6.5 },
+  // Левая сторона — разбросано по высоте и по горизонтали
+  { src: `${B}/wrench.png`, pos: { top: '7%', left: '7%' }, size: 104, speed: 16, dur: 7, rot: -14 },
+  { src: `${B}/roller.png`, pos: { top: '31%', left: '15%' }, size: 74, speed: -12, dur: 9, rot: 12, blur: 1.4, opacity: 0.75 },
+  { src: `${B}/level.png`, pos: { top: '60%', left: '4%' }, size: 122, speed: 22, dur: 8, rot: -7 },
+  { src: `${B}/hammer.png`, pos: { top: '46%', left: '17%' }, size: 66, speed: 10, dur: 8.5, rot: -22, blur: 1.6, opacity: 0.7 },
+  { src: `${B}/screwdriver.png`, pos: { top: '80%', left: '13%' }, size: 84, speed: -14, dur: 6.5, rot: 20, flip: true },
+  // Правая сторона
+  { src: `${B}/drill.png`, pos: { top: '9%', right: '6%' }, size: 110, speed: -15, dur: 7.5, rot: 12 },
+  { src: `${B}/screwdriver.png`, pos: { top: '58%', right: '4%' }, size: 104, speed: -12, dur: 6.5, rot: -16 },
+  { src: `${B}/hammer.png`, pos: { top: '33%', right: '15%' }, size: 80, speed: 18, dur: 8.5, rot: -8, blur: 1, opacity: 0.8 },
+  { src: `${B}/wrench.png`, pos: { top: '80%', right: '12%' }, size: 70, speed: 14, dur: 8, rot: 24, blur: 1.4, opacity: 0.72, flip: true },
+  { src: `${B}/roller.png`, pos: { top: '20%', right: '16%' }, size: 66, speed: -10, dur: 9, rot: -18, blur: 1.2, opacity: 0.72 },
 ];
 
 export default function HeroDecor() {
@@ -52,7 +64,7 @@ export default function HeroDecor() {
           key={i}
           data-speed={t.speed}
           className="decor-parallax absolute"
-          style={{ ...t.pos, width: t.size, height: t.size }}
+          style={{ ...t.pos, width: t.size, height: t.size, opacity: t.opacity ?? 1 }}
         >
           <div
             className="decor-float h-full w-full"
@@ -63,7 +75,12 @@ export default function HeroDecor() {
               src={t.src}
               alt=""
               className="h-full w-full object-contain"
-              style={{ filter: 'drop-shadow(0 12px 22px rgba(0,0,0,0.10))' }}
+              style={{
+                transform: `rotate(${t.rot}deg)${t.flip ? ' scaleX(-1)' : ''}`,
+                filter: `drop-shadow(0 12px 22px rgba(0,0,0,0.10))${
+                  t.blur ? ` blur(${t.blur}px)` : ''
+                }`,
+              }}
             />
           </div>
         </div>
