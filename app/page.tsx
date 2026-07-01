@@ -8,6 +8,7 @@ import OrderCard from '@/components/OrderCard';
 import JsonLd from '@/components/JsonLd';
 import { catIcon, catName, cityName } from '@/lib/labels';
 import { cityRank } from '@/lib/cities';
+import HeroDecor from '@/components/HeroDecor';
 
 const FAQ: [string, string][] = [
   [
@@ -56,7 +57,8 @@ export default async function HomePage() {
           aria-hidden
           className="pointer-events-none absolute top-12 -left-24 h-72 w-72 rounded-full bg-amber-100/50 blur-3xl"
         />
-        <div className="relative mx-auto max-w-6xl px-4 pt-8 pb-10 text-center">
+        <HeroDecor />
+        <div className="relative z-10 mx-auto max-w-6xl px-4 pt-8 pb-10 text-center">
           <span className="inline-flex items-center gap-2 rounded-full bg-brand/10 px-4 py-1.5 text-sm font-medium text-brand ring-1 ring-brand/15">
             ⚡ Единый сервис ремонта и услуг в Казахстане
           </span>

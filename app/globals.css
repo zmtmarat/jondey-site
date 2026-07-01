@@ -19,6 +19,31 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Плавающие 3D-инструменты в hero (HeroDecor): параллакс за мышью (внешний
+   слой) + бесконечное покачивание (внутренний слой). */
+.decor-parallax {
+  transform: translate(var(--px, 0px), var(--py, 0px));
+  transition: transform 0.25s ease-out;
+  will-change: transform;
+}
+.decor-float {
+  animation: decorFloat 7s ease-in-out infinite;
+}
+@keyframes decorFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(4deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .decor-float {
+    animation: none;
+  }
+}
+
 /* Примечание: НЕ добавлять глобальное `a { color: inherit }` без @layer —
    незанесённое в слой правило перебивает утилиты Tailwind (text-brand-dark и
    т.п.) на ссылках-кнопках, и тёмный текст на белом фоне становится невидимым.
