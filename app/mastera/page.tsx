@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import { getCategories, getCities, getMasters } from '@/lib/data';
 import type { Category, City } from '@/lib/types';
+import Link from 'next/link';
 import MasterCard from '@/components/MasterCard';
 import CategoryGrid from '@/components/CategoryGrid';
-import { cityName } from '@/lib/labels';
+import { catName, cityName } from '@/lib/labels';
 
 export const revalidate = 120;
 
@@ -41,19 +42,42 @@ export default async function MastersPage({
 
       <CityFilter cities={cities} active={cityId} />
 
-      <section className="mt-6">
-        {masters.length > 0 ? (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {masters.map((m) => (
-              <MasterCard key={m.user_id} master={m} catMap={catMap} />
-            ))}
-          </div>
-        ) : (
+      {masters.length === 0 ? (
+        <section className="mt-6">
           <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center text-slate-500">
             Мастеров пока нет. Загляните позже или установите приложение.
           </div>
-        )}
-      </section>
+        </section>
+      ) : (
+        <section className="mt-8 space-y-9">
+          {categories.map((cat) => {
+            const catMasters = masters.filter((m) =>
+              m.category_ids.includes(String(cat.id)),
+            );
+            if (catMasters.length === 0) return null;
+            return (
+              <div key={cat.id}>
+                <div className="flex items-end justify-between mb-3">
+                  <h2 className="text-xl font-bold">{catName(cat)}</h2>
+                  {catMasters.length > 6 && (
+                    <Link
+                      href={`/mastera/${cat.slug}`}
+                      className="text-sm text-brand font-medium hover:underline"
+                    >
+                      Все ({catMasters.length}) →
+                    </Link>
+                  )}
+                </div>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {catMasters.slice(0, 6).map((m) => (
+                    <MasterCard key={m.user_id} master={m} catMap={catMap} />
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </section>
+      )}
     </div>
   );
 }
