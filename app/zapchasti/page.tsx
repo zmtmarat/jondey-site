@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { getCategories, getParts } from '@/lib/data';
+import { catImage } from '@/lib/labels';
 import PartsSearch from '@/components/PartsSearch';
 
 export const metadata: Metadata = {
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 
 export const revalidate = 300;
 
-// Категории с каталогом запчастей (как в приложении).
+// Категории с каталогом запчастей.
 const PARTS_SLUGS = [
   'transport',
   'spectech',
@@ -23,7 +24,7 @@ const PARTS_SLUGS = [
   'computer',
 ];
 
-// Названия категорий в контексте запчастей (spectech = «Спецтехника», не «вызов»).
+// Названия в контексте запчастей (spectech = «Спецтехника», не «вызов»).
 const PARTS_LABELS: Record<string, string> = {
   transport: 'Транспорт',
   spectech: 'Спецтехника',
@@ -37,35 +38,48 @@ const PARTS_LABELS: Record<string, string> = {
 
 export default async function ZapchastiPage() {
   const [cats, initial] = await Promise.all([getCategories(), getParts()]);
-  const partsCats = cats
-    .filter((c) => PARTS_SLUGS.includes(c.slug))
-    .map((c) => ({ slug: c.slug, name: PARTS_LABELS[c.slug] ?? c.name_ru ?? c.slug }));
+  const bySlug = new Map(cats.map((c) => [c.slug, c]));
+  const partsCats = PARTS_SLUGS.filter((s) => bySlug.has(s)).map((slug) => ({
+    slug,
+    name: PARTS_LABELS[slug] ?? bySlug.get(slug)?.name_ru ?? slug,
+    image: catImage(slug),
+  }));
 
   return (
-    <main className="max-w-5xl mx-auto px-4 py-8">
-      <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
-        Найти запчасть
-      </h1>
-      <p className="text-slate-600 mt-2 max-w-2xl">
-        Запчасти на авто, спецтехнику, мототехнику, бытовую технику и телефоны от
-        магазинов Казахстана. Ищите по марке, модели и году — или оставьте запрос,
-        и магазины пришлют цены.
-      </p>
-
-      <div className="mt-6">
-        <PartsSearch categories={partsCats} initial={initial} />
-      </div>
-
-      <section className="mt-12 rounded-2xl bg-slate-50 border border-slate-200 p-6">
-        <h2 className="text-lg font-semibold text-slate-900">Как это работает</h2>
-        <ol className="mt-3 space-y-2 text-slate-600 text-sm list-decimal list-inside">
-          <li>Находите нужную деталь по марке и модели вашей машины.</li>
-          <li>
-            Нет в наличии — оставляете запрос (например «стартер на Camry 2006»).
-          </li>
-          <li>Магазины присылают цены, вы связываетесь и заказываете в приложении.</li>
-        </ol>
+    <main>
+      {/* Hero */}
+      <section className="bg-gradient-to-br from-brand to-[#0d2c5c] text-white">
+        <div className="max-w-5xl mx-auto px-4 py-12 sm:py-16">
+          <span className="inline-block rounded-full bg-white/15 px-3 py-1 text-xs font-semibold mb-4">
+            🔧 Маркетплейс запчастей
+          </span>
+          <h1 className="text-3xl sm:text-4xl font-bold leading-tight">
+            Найти запчасть
+          </h1>
+          <p className="mt-4 max-w-2xl text-white/85 text-[15px] leading-relaxed">
+            Запчасти на авто, спецтехнику, мототехнику, бытовую технику и
+            гаджеты от магазинов Казахстана. Выберите марку, модель и деталь —
+            или оставьте запрос, и магазины сами пришлют вам цены.
+          </p>
+        </div>
       </section>
+
+      <div className="max-w-5xl mx-auto px-4 py-8">
+        <PartsSearch categories={partsCats} initial={initial} />
+
+        <section className="mt-14 grid sm:grid-cols-3 gap-4">
+          {[
+            ['1. Выберите деталь', 'Категория, марка и модель вашей техники.'],
+            ['2. Смотрите наличие', 'Подходящие запчасти от проверенных магазинов с ценами.'],
+            ['3. Свяжитесь и закажите', 'Напишите или позвоните магазину прямо в приложении.'],
+          ].map(([t, d]) => (
+            <div key={t} className="rounded-2xl bg-white border border-slate-200 p-5">
+              <div className="font-semibold text-slate-900">{t}</div>
+              <p className="mt-2 text-sm text-slate-600">{d}</p>
+            </div>
+          ))}
+        </section>
+      </div>
     </main>
   );
 }
