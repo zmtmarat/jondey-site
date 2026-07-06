@@ -1,13 +1,10 @@
 import type { Metadata } from 'next';
-import { getCategories, getCities } from '@/lib/data';
-import MasterForm from '@/components/MasterForm';
-
-export const revalidate = 300;
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Стать мастером — получайте заказы | Jondey',
   description:
-    'Зарегистрируйтесь мастером на Jondey: выберите направления работы и город, получайте заявки рядом и откликайтесь со своей ценой. Бесплатно, без рекламных бюджетов.',
+    'Станьте мастером Jondey: скачайте приложение, укажите направления и город, получайте заявки рядом и откликайтесь со своей ценой. Бесплатно, от 18 лет.',
   alternates: { canonical: '/stat-masterom' },
 };
 
@@ -17,19 +14,15 @@ const PERKS = [
   ['⭐', 'Репутация', 'Отзывы, рейтинг и статус мастера'],
 ];
 
-export default async function BecomeMasterPage() {
-  const [categories, cities] = await Promise.all([
-    getCategories(),
-    getCities(),
-  ]);
-
+export default function BecomeMasterPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
       <div className="text-center">
         <h1 className="text-3xl sm:text-4xl font-extrabold">Стать мастером</h1>
-        <p className="mt-3 text-slate-500 max-w-xl mx-auto">
-          Выберите направления, в которых работаете, и город — и получайте
-          заявки рядом. Чем больше направлений, тем выше статус и больше заказов.
+        <p className="mt-3 text-slate-600 max-w-xl mx-auto">
+          Уже <b>более 1000 человек</b> нашли работу на Jondey. Присоединяйтесь:
+          укажите, что умеете, и принимайте заказы рядом. Бесплатно, свободный
+          график, оплата напрямую.
         </p>
       </div>
 
@@ -46,8 +39,24 @@ export default async function BecomeMasterPage() {
         ))}
       </div>
 
-      <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
-        <MasterForm categories={categories} cities={cities} />
+      {/* Регистрация — только в приложении */}
+      <div className="mt-8 rounded-3xl bg-gradient-to-br from-brand to-[#0d2c5c] p-8 text-center text-white">
+        <h2 className="text-2xl font-bold">Регистрация — в приложении</h2>
+        <p className="mt-3 text-white/85 max-w-lg mx-auto">
+          Скачайте приложение Jondey, выберите роль «Мастер», отметьте свои
+          направления и город — и начинайте принимать заказы. Это займёт пару
+          минут.
+        </p>
+        <Link
+          href="/skachat"
+          style={{ backgroundColor: '#ffb300', color: '#0d2c5c' }}
+          className="mt-6 inline-flex items-center gap-2 rounded-xl px-8 py-4 font-bold shadow-lg hover:brightness-105 transition"
+        >
+          Скачать приложение
+        </Link>
+        <p className="mt-4 text-xs text-white/70">
+          Регистрация бесплатная, для граждан от 18 лет.
+        </p>
       </div>
     </div>
   );

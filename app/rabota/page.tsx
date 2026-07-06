@@ -71,7 +71,7 @@ export default function RabotaPage() {
       <section className="bg-gradient-to-br from-brand to-[#0d2c5c] text-white">
         <div className="max-w-4xl mx-auto px-4 py-14 sm:py-20 text-center">
           <span className="inline-block rounded-full bg-white/15 px-3 py-1 text-xs font-semibold mb-4">
-            Работа и подработка по всему Казахстану
+            🎉 Более 1000 человек уже нашли работу на Jondey
           </span>
           <h1 className="text-3xl sm:text-4xl font-bold leading-tight">
             Ищете работу? Станьте мастером Jondey
@@ -85,20 +85,17 @@ export default function RabotaPage() {
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link
-              href="/stat-masterom"
+              href="/skachat"
               style={{ backgroundColor: '#ffb300', color: '#0d2c5c' }}
               className="inline-flex items-center gap-2 rounded-xl px-8 py-4 font-bold shadow-lg hover:brightness-105 transition"
             >
-              Зарегистрироваться
-            </Link>
-            <Link
-              href="/skachat"
-              className="inline-flex items-center gap-2 rounded-xl border-2 border-white/40 px-8 py-4 font-semibold text-white hover:bg-white/10 transition"
-            >
-              Скачать приложение
+              Скачать приложение и зарегистрироваться
             </Link>
           </div>
-          <div className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-white/80">
+          <p className="mt-3 text-xs text-white/70">
+            Регистрация — в приложении Jondey. Бесплатно, для граждан от 18 лет.
+          </p>
+          <div className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-white/80">
             <span>✓ Бесплатная регистрация</span>
             <span>🕒 Свободный график</span>
             <span>💸 Оплата напрямую</span>
@@ -155,8 +152,8 @@ export default function RabotaPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-5">Как начать</h2>
           <div className="grid sm:grid-cols-3 gap-4">
             {[
-              ['1. Зарегистрируйтесь', 'Заполните короткую анкету: имя, город и что вы умеете.'],
-              ['2. Укажите специальности', 'Отметьте направления, в которых работаете, — так заявки будут точнее.'],
+              ['1. Скачайте приложение', 'Установите Jondey и выберите роль «Мастер». Регистрация — в приложении.'],
+              ['2. Укажите специальности', 'Отметьте направления, в которых работаете, и город — так заявки будут точнее.'],
               ['3. Принимайте заказы', 'Откликайтесь на подходящие заявки и договаривайтесь с клиентом.'],
             ].map(([t, d]) => (
               <div key={t} className="rounded-2xl bg-slate-50 border border-slate-200 p-5">
@@ -197,11 +194,11 @@ export default function RabotaPage() {
             Присоединяйтесь к мастерам Jondey — это займёт пару минут.
           </p>
           <Link
-            href="/stat-masterom"
+            href="/skachat"
             style={{ backgroundColor: '#ffb300', color: '#0d2c5c' }}
             className="mt-6 inline-flex items-center gap-2 rounded-xl px-8 py-4 font-bold shadow-lg hover:brightness-105 transition"
           >
-            Стать мастером
+            Скачать приложение
           </Link>
         </section>
       </div>

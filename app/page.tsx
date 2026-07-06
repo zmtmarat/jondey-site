@@ -289,7 +289,7 @@ export default async function HomePage() {
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand to-[#0d2c5c] px-6 py-10 sm:px-12 sm:py-12 text-white shadow-xl shadow-brand/20">
             <div className="relative max-w-2xl">
               <span className="inline-block rounded-full bg-white/15 px-3 py-1 text-xs font-semibold mb-4">
-                Для мастеров и специалистов
+                🎉 Более 1000 человек уже нашли работу
               </span>
               <h2 className="text-2xl sm:text-3xl font-bold leading-tight">
                 Ищете работу? Станьте мастером Jondey
