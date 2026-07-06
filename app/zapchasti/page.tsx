@@ -14,6 +14,7 @@ export const revalidate = 300;
 // Категории с каталогом запчастей (как в приложении).
 const PARTS_SLUGS = [
   'transport',
+  'spectech',
   'moto',
   'micromobility',
   'appliances',
