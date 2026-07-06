@@ -23,11 +23,23 @@ const PARTS_SLUGS = [
   'computer',
 ];
 
+// Названия категорий в контексте запчастей (spectech = «Спецтехника», не «вызов»).
+const PARTS_LABELS: Record<string, string> = {
+  transport: 'Транспорт',
+  spectech: 'Спецтехника',
+  moto: 'Мототехника',
+  micromobility: 'Электротранспорт',
+  appliances: 'Бытовая техника',
+  electronics: 'Электроника и гаджеты',
+  console: 'Игровые приставки',
+  computer: 'Компьютеры и ноутбуки',
+};
+
 export default async function ZapchastiPage() {
   const [cats, initial] = await Promise.all([getCategories(), getParts()]);
   const partsCats = cats
     .filter((c) => PARTS_SLUGS.includes(c.slug))
-    .map((c) => ({ slug: c.slug, name: c.name_ru ?? c.slug }));
+    .map((c) => ({ slug: c.slug, name: PARTS_LABELS[c.slug] ?? c.name_ru ?? c.slug }));
 
   return (
     <main className="max-w-5xl mx-auto px-4 py-8">
