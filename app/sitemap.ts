@@ -12,6 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE}/o-nas`, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${SITE}/sozdat-zayavku`, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${SITE}/stat-masterom`, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${SITE}/rabota`, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${SITE}/uslugi`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${SITE}/mastera`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${SITE}/zapchasti`, changeFrequency: 'daily', priority: 0.9 },
