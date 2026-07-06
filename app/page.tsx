@@ -93,6 +93,12 @@ export default async function HomePage() {
               </svg>
               Найти мастера
             </Link>
+            <Link
+              href="/zapchasti"
+              className="inline-flex items-center gap-2 rounded-xl border-2 border-brand px-7 py-3.5 font-bold text-brand hover:bg-brand/5 transition"
+            >
+              🔧 Найти запчасть
+            </Link>
           </div>
           <div className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-slate-500">
             <span className="inline-flex items-center gap-1.5">

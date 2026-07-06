@@ -108,3 +108,18 @@ export interface ForumComment {
   body: string;
   created_at: string | null;
 }
+
+export interface WebPart {
+  id: string;
+  category_slug: string;
+  part_type: string;
+  brand: string | null;
+  model: string | null;
+  year_from: number | null;
+  year_to: number | null;
+  title: string | null;
+  price: number | null;
+  condition: string;
+  photo_url: string | null;
+  company_name: string | null;
+}

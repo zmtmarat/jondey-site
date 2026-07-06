@@ -7,6 +7,7 @@ import Image from 'next/image';
 const NAV = [
   ['/uslugi', 'Услуги'],
   ['/mastera', 'Мастера'],
+  ['/zapchasti', 'Запчасти'],
   ['/dostavka', 'Доставка'],
   ['/kompanii', 'Компании'],
   ['/zayavki', 'Заявки'],

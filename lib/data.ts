@@ -287,3 +287,24 @@ export async function getForumComments(
     .order('created_at', { ascending: true });
   return (data ?? []) as ForumComment[];
 }
+
+// ─── Запчасти (витрина web_parts: в наличии + одобренные магазины) ────────────
+
+export async function getParts(opts?: {
+  q?: string;
+  category?: string;
+}): Promise<import('./types').WebPart[]> {
+  let query = supabase.from('web_parts').select('*').limit(60);
+  if (opts?.category) query = query.eq('category_slug', opts.category);
+  if (opts?.q) {
+    // Санитайзим ввод (для or-фильтра PostgREST) — только буквы/цифры/пробелы.
+    const q = opts.q.replace(/[^\p{L}\p{N}\s-]/gu, '').trim();
+    if (q) {
+      query = query.or(
+        `part_type.ilike.%${q}%,brand.ilike.%${q}%,model.ilike.%${q}%`,
+      );
+    }
+  }
+  const { data } = await query;
+  return (data ?? []) as import('./types').WebPart[];
+}
