@@ -284,6 +284,48 @@ export default async function HomePage() {
           </section>
         )}
 
+        {/* Приглашение для мастеров */}
+        <section className="py-10">
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand to-[#0d2c5c] px-6 py-10 sm:px-12 sm:py-12 text-white shadow-xl shadow-brand/20">
+            <div className="relative max-w-2xl">
+              <span className="inline-block rounded-full bg-white/15 px-3 py-1 text-xs font-semibold mb-4">
+                Для мастеров и специалистов
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-bold leading-tight">
+                Ищете работу? Станьте мастером Jondey
+              </h2>
+              <p className="mt-4 text-white/85 text-[15px] leading-relaxed">
+                Делайте то, что умеете, — и получайте за это достойную оплату.
+                Расскажите, в чём вы мастер, и заказы сами найдут вас. Свободный
+                график, оплата напрямую от клиента, без вложений и без обзвона
+                десятков объявлений. Тысячи людей каждый день ищут именно таких
+                специалистов, как вы.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/80">
+                <span className="inline-flex items-center gap-1.5">✓ Бесплатная регистрация</span>
+                <span className="inline-flex items-center gap-1.5">🕒 Свободный график</span>
+                <span className="inline-flex items-center gap-1.5">💸 Оплата напрямую</span>
+                <span className="inline-flex items-center gap-1.5">📩 Поток заявок рядом</span>
+              </div>
+              <div className="mt-7 flex flex-wrap gap-3">
+                <Link
+                  href="/stat-masterom"
+                  style={{ backgroundColor: '#ffb300', color: '#0d2c5c' }}
+                  className="inline-flex items-center gap-2 rounded-xl px-7 py-3.5 font-bold shadow-lg hover:brightness-105 transition"
+                >
+                  Стать мастером
+                </Link>
+                <Link
+                  href="/skachat"
+                  className="inline-flex items-center gap-2 rounded-xl border-2 border-white/40 px-7 py-3.5 font-semibold text-white hover:bg-white/10 transition"
+                >
+                  Скачать приложение
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section className="py-10">
           <h2 className="text-2xl font-bold mb-5">Частые вопросы</h2>
           <div className="space-y-3">
