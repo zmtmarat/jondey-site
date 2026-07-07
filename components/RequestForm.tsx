@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
 import type { Category, City } from '@/lib/types';
 import { catName, cityName, catImage, catIcon } from '@/lib/labels';
+import { antispamMessage } from '@/lib/errors';
 
 type Status = 'idle' | 'sending' | 'done' | 'error';
 
@@ -124,7 +125,10 @@ export default function RequestForm({
     });
     if (err) {
       setStatus('error');
-      setError('Не удалось отправить. Попробуйте ещё раз или установите приложение.');
+      setError(
+        antispamMessage(err.message) ||
+          'Не удалось отправить. Попробуйте ещё раз или установите приложение.',
+      );
       return;
     }
     setStatus('done');

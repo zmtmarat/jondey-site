@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
+import { antispamMessage } from '@/lib/errors';
 
 export default function CommentForm({ topicId }: { topicId: number }) {
   const router = useRouter();
@@ -28,7 +29,7 @@ export default function CommentForm({ topicId }: { topicId: number }) {
     });
     if (err) {
       setSending(false);
-      setError('Не удалось отправить. Попробуйте ещё раз.');
+      setError(antispamMessage(err.message) || 'Не удалось отправить. Попробуйте ещё раз.');
       return;
     }
     setBody('');

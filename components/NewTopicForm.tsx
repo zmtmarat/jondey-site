@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
+import { antispamMessage } from '@/lib/errors';
 
 export default function NewTopicForm() {
   const router = useRouter();
@@ -58,9 +59,10 @@ export default function NewTopicForm() {
       if (err) throw err;
       router.push(`/forum/${data.id}`);
       router.refresh();
-    } catch {
+    } catch (e) {
       setSending(false);
-      setError('Не удалось опубликовать. Попробуйте ещё раз.');
+      const msg = e instanceof Error ? e.message : '';
+      setError(antispamMessage(msg) || 'Не удалось опубликовать. Попробуйте ещё раз.');
     }
   }
 
