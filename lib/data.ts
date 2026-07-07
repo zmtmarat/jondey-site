@@ -11,6 +11,7 @@ import type {
   OrderListing,
   Review,
   Service,
+  WebBrand,
 } from './types';
 
 // ─── Справочники ─────────────────────────────────────────────────────────────
@@ -307,4 +308,42 @@ export async function getParts(opts?: {
   }
   const { data } = await query;
   return (data ?? []) as import('./types').WebPart[];
+}
+
+// ─── Бренды-производители (модель C: авторизованные представители) ─────────────
+
+export async function getBrands(): Promise<WebBrand[]> {
+  const { data } = await supabase.from('web_brands').select('*');
+  const list = (data ?? []) as WebBrand[];
+  return list.sort((a, b) => {
+    if (a.is_featured !== b.is_featured) return a.is_featured ? -1 : 1;
+    if (b.part_count !== a.part_count) return b.part_count - a.part_count;
+    return a.name.localeCompare(b.name, 'ru');
+  });
+}
+
+export async function getBrand(slug: string): Promise<WebBrand | null> {
+  const { data } = await supabase
+    .from('web_brands')
+    .select('*')
+    .eq('slug', slug)
+    .maybeSingle();
+  return (data as WebBrand) ?? null;
+}
+
+// Авторизованные представители бренда (одобренные компании).
+export async function getBrandReps(brandId: string): Promise<Company[]> {
+  const { data: links } = await supabase
+    .from('brand_partners')
+    .select('company_id')
+    .eq('brand_id', brandId)
+    .eq('status', 'approved');
+  const ids = (links ?? []).map((l: { company_id: string }) => l.company_id);
+  if (ids.length === 0) return [];
+  const { data } = await supabase
+    .from('companies')
+    .select(COMPANY_COLS)
+    .in('id', ids)
+    .eq('moderation_status', 'approved');
+  return (data ?? []) as Company[];
 }

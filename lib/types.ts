@@ -122,4 +122,19 @@ export interface WebPart {
   condition: string;
   photo_url: string | null;
   company_name: string | null;
+  company_id?: string | null;
+  authorized?: boolean;
+}
+
+export interface WebBrand {
+  id: string;
+  slug: string;
+  name: string;
+  category_slug: string | null;
+  country: string | null;
+  logo_url: string | null;
+  description: string | null;
+  is_featured: boolean;
+  partner_count: number;
+  part_count: number;
 }

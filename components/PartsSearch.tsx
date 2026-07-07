@@ -173,6 +173,11 @@ export default function PartsSearch({
                     🏪 {p.company_name}
                   </div>
                 )}
+                {p.authorized && (
+                  <div className="mt-1.5 inline-flex items-center gap-1 self-start rounded-full bg-green-50 text-green-700 text-[11px] font-semibold px-2 py-0.5 border border-green-200">
+                    ✓ Авторизованный представитель
+                  </div>
+                )}
                 <Link
                   href="/skachat"
                   className="mt-3 rounded-xl bg-brand/10 text-brand text-center py-2 text-sm font-semibold hover:bg-brand/15"

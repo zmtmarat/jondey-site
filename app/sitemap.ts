@@ -1,11 +1,12 @@
 import type { MetadataRoute } from 'next';
-import { getCategories, getServices } from '@/lib/data';
+import { getBrands, getCategories, getServices } from '@/lib/data';
 import { SITE_URL as SITE } from '@/lib/site';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [categories, services] = await Promise.all([
+  const [categories, services, brands] = await Promise.all([
     getCategories(),
     getServices(),
+    getBrands(),
   ]);
   const staticUrls: MetadataRoute.Sitemap = [
     { url: `${SITE}/`, changeFrequency: 'daily', priority: 1 },
@@ -16,6 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE}/uslugi`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${SITE}/mastera`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${SITE}/zapchasti`, changeFrequency: 'daily', priority: 0.9 },
+    { url: `${SITE}/brands`, changeFrequency: 'daily', priority: 0.8 },
     { url: `${SITE}/dostavka`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${SITE}/kompanii`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${SITE}/zayavki`, changeFrequency: 'hourly', priority: 0.9 },
@@ -33,5 +35,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: 'weekly',
     priority: 0.7,
   }));
-  return [...staticUrls, ...catUrls, ...serviceUrls];
+  // Страница каждого бренда — SEO под «запчасти <бренд>».
+  const brandUrls: MetadataRoute.Sitemap = brands.map((b) => ({
+    url: `${SITE}/brands/${b.slug}`,
+    changeFrequency: 'weekly',
+    priority: 0.7,
+  }));
+  return [...staticUrls, ...catUrls, ...serviceUrls, ...brandUrls];
 }

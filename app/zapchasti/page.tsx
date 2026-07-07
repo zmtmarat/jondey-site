@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { getCategories, getParts } from '@/lib/data';
 import { catImage } from '@/lib/labels';
 import PartsSearch from '@/components/PartsSearch';
@@ -61,6 +62,12 @@ export default async function ZapchastiPage() {
             гаджеты от магазинов Казахстана. Выберите марку, модель и деталь —
             или оставьте запрос, и магазины сами пришлют вам цены.
           </p>
+          <Link
+            href="/brands"
+            className="mt-5 inline-flex items-center gap-1.5 rounded-xl bg-white/15 hover:bg-white/25 px-4 py-2.5 text-sm font-semibold transition"
+          >
+            🏭 Бренды и авторизованные представители →
+          </Link>
         </div>
       </section>
 

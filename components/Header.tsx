@@ -8,6 +8,7 @@ const NAV = [
   ['/uslugi', 'Услуги'],
   ['/mastera', 'Мастера'],
   ['/zapchasti', 'Запчасти'],
+  ['/brands', 'Бренды'],
   ['/rabota', 'Работа'],
   ['/dostavka', 'Доставка'],
   ['/kompanii', 'Компании'],
