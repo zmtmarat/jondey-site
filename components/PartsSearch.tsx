@@ -140,6 +140,8 @@ export default function PartsSearch({
                     <img
                       src={p.photo_url}
                       alt={p.part_type}
+                      loading="lazy"
+                      decoding="async"
                       className="w-16 h-16 rounded-xl object-cover shrink-0"
                     />
                   ) : (
