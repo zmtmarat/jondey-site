@@ -11,6 +11,8 @@ export const metadata: Metadata = {
 const UPDATED = '8 июля 2026 г.';
 const SUPPORT_PHONE = '+7 777 798 98 98';
 const SUPPORT_EMAIL = 'zmtmarat@gmail.com';
+const OPERATOR = 'ТОО «RIDS EMPIRE»';
+const OPERATOR_BIN = '170240016026';
 
 export default function PolitikaPage() {
   return (
@@ -24,7 +26,8 @@ export default function PolitikaPage() {
         <section>
           <p>
             Настоящая Политика описывает, как сервис <b>Jondey</b> (далее —
-            «Сервис», «мы») собирает, использует, хранит и защищает
+            «Сервис», «мы»), оператором которого является {OPERATOR} (БИН{' '}
+            {OPERATOR_BIN}), собирает, использует, хранит и защищает
             персональные данные пользователей мобильного приложения и сайта{' '}
             <Link href="/" className="text-brand underline">
               jondey.kz
@@ -141,7 +144,8 @@ export default function PolitikaPage() {
 
         <Section title="8. Контакты">
           <p>
-            По вопросам обработки персональных данных обращайтесь в поддержку:
+            Оператор персональных данных: <b>{OPERATOR}</b>, БИН {OPERATOR_BIN}
+            . По вопросам обработки персональных данных обращайтесь в поддержку:
           </p>
           <ul className="mt-3 list-disc pl-5 space-y-1">
             <li>
