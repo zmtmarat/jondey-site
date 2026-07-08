@@ -59,14 +59,9 @@ export default function Footer() {
           <h4 className="font-semibold mb-3 text-slate-700">Документы</h4>
           <ul className="space-y-2 text-slate-500">
             <li>
-              <a
-                href="https://zmtmarat.github.io/-jondey-privacy/"
-                className="hover:text-brand"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <Link href="/politika" className="hover:text-brand">
                 Политика конфиденциальности
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
