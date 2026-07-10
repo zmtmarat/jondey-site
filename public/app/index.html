@@ -34,16 +34,37 @@
 
   <title>Jondey — мастера и запчасти</title>
   <link rel="manifest" href="manifest.json">
+  <style>
+    #jondey-loading {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: #0d2c5c; color: #fff;
+      font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+    }
+    #jondey-loading .sp {
+      width: 46px; height: 46px; border-radius: 50%;
+      border: 4px solid rgba(255,255,255,.22); border-top-color: #fff;
+      animation: jd-spin 1s linear infinite;
+    }
+    @keyframes jd-spin { to { transform: rotate(360deg); } }
+    #jondey-loading .nm { margin-top: 20px; font-size: 28px; font-weight: 800; letter-spacing: .5px; }
+    #jondey-loading .sub { margin-top: 6px; font-size: 13px; opacity: .7; }
+  </style>
 </head>
 <body>
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
-
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
-  -->
+  <!-- Брендовый экран загрузки (Flutter убирает его после первого кадра). -->
+  <div id="jondey-loading">
+    <div class="sp"></div>
+    <div class="nm">Jondey</div>
+    <div class="sub">Загрузка…</div>
+  </div>
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      var el = document.getElementById('jondey-loading');
+      if (el) el.remove();
+    });
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
