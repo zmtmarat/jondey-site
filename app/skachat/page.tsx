@@ -34,28 +34,32 @@ export default function DownloadPage() {
             отзывы, оплата по договорённости и отслеживание мастера на карте —
             всё в одном приложении.
           </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <a
-              href="/app"
-              className="rounded-xl bg-accent text-brand-dark px-7 py-3.5 font-bold shadow-lg hover:brightness-105 transition"
-            >
-              🚀 Открыть веб-версию
-            </a>
-          </div>
-          <p className="text-white/80 text-sm mt-3">
-            Работает прямо в браузере — на iPhone и Android, без установки.
-          </p>
-          <p className="text-white/60 text-xs mt-2 max-w-md mx-auto">
-            На iPhone: откройте в Safari → «Поделиться» → «На экран „Домой“».
-            На Android: меню браузера → «Установить приложение».
-          </p>
-          <div className="mt-6 flex flex-wrap justify-center gap-4">
-            <span className="rounded-xl bg-white/90 text-brand-dark px-6 py-3 font-semibold cursor-default">
-               App Store — скоро
-            </span>
-            <span className="rounded-xl bg-black/30 ring-1 ring-white/30 px-6 py-3 font-semibold cursor-default">
-              ▶ Google Play — скоро
-            </span>
+          <div className="mt-8 grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto text-left">
+            {/* iPhone → веб-версия (PWA) */}
+            <div className="rounded-2xl bg-white/10 ring-1 ring-white/20 p-5">
+              <div className="text-sm font-semibold text-white/80"> Для iPhone</div>
+              <a
+                href="/app"
+                className="mt-3 flex items-center justify-center rounded-xl bg-accent text-brand-dark px-5 py-3 font-bold shadow-lg hover:brightness-105 transition"
+              >
+                🚀 Открыть веб-версию
+              </a>
+              <p className="text-white/70 text-xs mt-3 leading-relaxed">
+                Открой в <b>Safari</b> → «Поделиться» → <b>«На экран „Домой"»</b>.
+                Запустится как приложение — установка из App Store не нужна.
+              </p>
+            </div>
+            {/* Android → приложение / Google Play */}
+            <div className="rounded-2xl bg-white/10 ring-1 ring-white/20 p-5">
+              <div className="text-sm font-semibold text-white/80">🤖 Для Android</div>
+              <span className="mt-3 flex items-center justify-center rounded-xl bg-black/30 ring-1 ring-white/30 px-5 py-3 font-semibold cursor-default">
+                ▶ Google Play — скоро
+              </span>
+              <p className="text-white/70 text-xs mt-3 leading-relaxed">
+                Полноценное приложение с уведомлениями — уже готово, скоро в
+                Google Play. Нужен раньше — напишите в поддержку, пришлём файл.
+              </p>
+            </div>
           </div>
         </div>
       </section>
