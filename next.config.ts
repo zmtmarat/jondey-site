@@ -6,6 +6,8 @@ const SUPABASE_WS = "wss://*.supabase.co";
 const YM = "https://mc.yandex.ru https://mc.yandex.com https://yastatic.net";
 const VERCEL =
   "https://vitals.vercel-insights.com https://*.vercel-scripts.com https://vercel.live";
+// Flutter web (PWA на /app) — CanvasKit c gstatic.
+const GSTATIC = "https://www.gstatic.com https://fonts.gstatic.com";
 
 // Content-Security-Policy: script/style с 'unsafe-inline', чтобы не сломать
 // Next и Яндекс.Метрику, но с жёсткими остальными директивами (никаких фреймов,
@@ -20,8 +22,8 @@ const csp = [
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
   "style-src 'self' 'unsafe-inline'",
-  `script-src 'self' 'unsafe-inline' 'unsafe-eval' ${YM} ${VERCEL}`,
-  `connect-src 'self' ${SUPABASE} ${SUPABASE_WS} ${YM} ${VERCEL}`,
+  `script-src 'self' 'unsafe-inline' 'unsafe-eval' ${YM} ${VERCEL} ${GSTATIC}`,
+  `connect-src 'self' ${SUPABASE} ${SUPABASE_WS} ${YM} ${VERCEL} ${GSTATIC}`,
   "frame-src 'self' https://mc.yandex.ru",
   "upgrade-insecure-requests",
 ].join("; ");
@@ -50,6 +52,10 @@ const nextConfig: NextConfig = {
   productionBrowserSourceMaps: false, // не отдаём source-maps (сложнее читать код)
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
+  },
+  async rewrites() {
+    // Веб-приложение (Flutter PWA) лежит в public/app; отдаём index.html по /app.
+    return [{ source: "/app", destination: "/app/index.html" }];
   },
 };
 
