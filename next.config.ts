@@ -6,8 +6,10 @@ const SUPABASE_WS = "wss://*.supabase.co";
 const YM = "https://mc.yandex.ru https://mc.yandex.com https://yastatic.net";
 const VERCEL =
   "https://vitals.vercel-insights.com https://*.vercel-scripts.com https://vercel.live";
-// Flutter web (PWA на /app) — CanvasKit c gstatic.
+// Flutter web (PWA на /app) — CanvasKit c gstatic, карта/адрес — OSM/Nominatim.
 const GSTATIC = "https://www.gstatic.com https://fonts.gstatic.com";
+const OSM =
+  "https://nominatim.openstreetmap.org https://*.tile.openstreetmap.org";
 
 // Content-Security-Policy: script/style с 'unsafe-inline', чтобы не сломать
 // Next и Яндекс.Метрику, но с жёсткими остальными директивами (никаких фреймов,
@@ -23,7 +25,7 @@ const csp = [
   "font-src 'self' data:",
   "style-src 'self' 'unsafe-inline'",
   `script-src 'self' 'unsafe-inline' 'unsafe-eval' ${YM} ${VERCEL} ${GSTATIC}`,
-  `connect-src 'self' ${SUPABASE} ${SUPABASE_WS} ${YM} ${VERCEL} ${GSTATIC}`,
+  `connect-src 'self' ${SUPABASE} ${SUPABASE_WS} ${YM} ${VERCEL} ${GSTATIC} ${OSM}`,
   "frame-src 'self' https://mc.yandex.ru",
   "upgrade-insecure-requests",
 ].join("; ");
