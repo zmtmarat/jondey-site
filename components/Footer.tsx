@@ -111,7 +111,22 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-2 border-t border-line pt-6 text-[13px] text-ink-muted sm:flex-row sm:items-center sm:justify-between">
+        <nav
+          aria-label={isKk ? 'Құқықтық құжаттар' : 'Правовые документы'}
+          className="mt-12 flex flex-wrap gap-x-5 gap-y-2 border-t border-line pt-6"
+        >
+          {t.legal.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className="text-[13px] text-ink-muted hover:text-brand-700"
+            >
+              {l.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="mt-5 flex flex-col gap-2 text-[13px] text-ink-muted sm:flex-row sm:items-center sm:justify-between">
           <p>© {year} Jondey. ТОО «RIDS EMPIRE», БИН 170240016026.</p>
           <p>{t.appLangs}</p>
         </div>

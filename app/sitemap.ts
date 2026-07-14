@@ -34,7 +34,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE}/zayavki`, changeFrequency: 'hourly', priority: 0.9 },
     { url: `${SITE}/forum`, changeFrequency: 'daily', priority: 0.7 },
     { url: `${SITE}/skachat`, changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${SITE}/partneram`, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${SITE}/pomoshch`, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${SITE}/kontakty`, changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${SITE}/soglashenie`, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${SITE}/pravila`, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${SITE}/politika`, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${SITE}/udalenie-akkaunta`, changeFrequency: 'yearly', priority: 0.3 },
   ];
   const catUrls: MetadataRoute.Sitemap = categories.map((c) => ({
     url: `${SITE}/mastera/${c.slug}`,

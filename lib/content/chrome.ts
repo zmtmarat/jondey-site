@@ -16,6 +16,7 @@ export interface ChromeContent {
   nav: { href: string; label: string }[];
   more: { href: string; label: string }[];
   cols: { title: string; links: { href: string; label: string }[] }[];
+  legal: { href: string; label: string }[];
 }
 
 const CHROME: Record<Locale, ChromeContent> = {
@@ -95,11 +96,18 @@ const CHROME: Record<Locale, ChromeContent> = {
         title: 'О Jondey',
         links: [
           { href: '/o-nas', label: 'О сервисе' },
-          { href: '/#how', label: 'Как это работает' },
+          { href: '/partneram', label: 'Партнёрская программа' },
+          { href: '/pomoshch', label: 'База знаний' },
+          { href: '/kontakty', label: 'Контакты' },
           { href: '/forum', label: 'Обсуждения' },
-          { href: '/politika', label: 'Политика конфиденциальности' },
         ],
       },
+    ],
+    legal: [
+      { href: '/soglashenie', label: 'Пользовательское соглашение' },
+      { href: '/pravila', label: 'Правила сервиса' },
+      { href: '/politika', label: 'Политика конфиденциальности' },
+      { href: '/udalenie-akkaunta', label: 'Удаление аккаунта' },
     ],
   },
 
@@ -179,11 +187,18 @@ const CHROME: Record<Locale, ChromeContent> = {
         title: 'Jondey туралы',
         links: [
           { href: '/o-nas', label: 'Сервис туралы' },
-          { href: '/kk#how', label: 'Қалай жұмыс істейді' },
+          { href: '/partneram', label: 'Серіктестік бағдарламасы' },
+          { href: '/pomoshch', label: 'Білім қоры' },
+          { href: '/kontakty', label: 'Байланыс' },
           { href: '/forum', label: 'Талқылаулар' },
-          { href: '/politika', label: 'Құпиялылық саясаты' },
         ],
       },
+    ],
+    legal: [
+      { href: '/soglashenie', label: 'Пайдаланушы келісімі' },
+      { href: '/pravila', label: 'Сервис ережелері' },
+      { href: '/politika', label: 'Құпиялылық саясаты' },
+      { href: '/udalenie-akkaunta', label: 'Аккаунтты жою' },
     ],
   },
 };
