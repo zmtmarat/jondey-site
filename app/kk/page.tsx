@@ -3,27 +3,28 @@ import HomeSections from '@/components/home/HomeSections';
 import { homeContent } from '@/lib/content/home';
 import { SITE_URL } from '@/lib/site';
 
-const c = homeContent('ru');
+const c = homeContent('kk');
+const URL_KK = `${SITE_URL}/kk`;
 
 export const metadata: Metadata = {
   title: c.meta.title,
   description: c.meta.description,
   alternates: {
-    canonical: SITE_URL,
+    canonical: URL_KK,
     languages: {
       'ru-KZ': SITE_URL,
-      'kk-KZ': `${SITE_URL}/kk`,
+      'kk-KZ': URL_KK,
       'x-default': SITE_URL,
     },
   },
   openGraph: {
     type: 'website',
-    url: SITE_URL,
+    url: URL_KK,
     siteName: 'Jondey',
     title: c.meta.title,
     description: c.meta.description,
-    locale: 'ru_KZ',
-    alternateLocale: ['kk_KZ'],
+    locale: 'kk_KZ',
+    alternateLocale: ['ru_KZ'],
   },
   twitter: {
     card: 'summary_large_image',
@@ -34,6 +35,11 @@ export const metadata: Metadata = {
 
 export const revalidate = 300;
 
-export default function HomePage() {
-  return <HomeSections locale="ru" />;
+/** Казахская главная. Полноценный контент, а не сокращённый перевод. */
+export default function HomePageKk() {
+  return (
+    <div lang="kk-KZ">
+      <HomeSections locale="kk" />
+    </div>
+  );
 }

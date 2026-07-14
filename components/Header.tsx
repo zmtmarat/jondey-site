@@ -3,110 +3,239 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+
+/* Шапка: аккуратно закреплённая, без перегруза. Второстепенные разделы —
+   в выпадающем меню «Направления». Переключатель языка ведёт на локализованную
+   главную (kk-версия главной готова; остальные страницы пока на русском). */
+
+const DIRECTIONS = [
+  ['/mastera', 'Мастера', 'Ремонт, сантехника, электрика, авто'],
+  ['/dostavka', 'Доставка и перевозки', 'Курьер, газель, грузоперевозка'],
+  ['/uslugi', 'Спецтехника и услуги', 'Кран, автовышка, эвакуатор'],
+  ['/zapchasti', 'Запчасти', 'Один запрос — цены от магазинов'],
+] as const;
 
 const NAV = [
-  ['/uslugi', 'Услуги'],
-  ['/mastera', 'Мастера'],
-  ['/zapchasti', 'Запчасти'],
+  ['/#how', 'Как это работает'],
+  ['/stat-masterom', 'Исполнителям'],
+  ['/kompanii', 'Бизнесу'],
   ['/brands', 'Бренды'],
-  ['/rabota', 'Работа'],
-  ['/dostavka', 'Доставка'],
-  ['/kompanii', 'Компании'],
+] as const;
+
+const MORE = [
   ['/zayavki', 'Заявки'],
   ['/forum', 'Обсуждения'],
+  ['/rabota', 'Работа'],
+  ['/o-nas', 'О сервисе'],
 ] as const;
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const close = () => setOpen(false);
+  const [dirOpen, setDirOpen] = useState(false);
+  const pathname = usePathname();
+  const isKk = pathname?.startsWith('/kk');
+  const close = () => {
+    setOpen(false);
+    setDirOpen(false);
+  };
 
   return (
-    <header className="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200">
-      <div className="mx-auto max-w-6xl px-4 h-16 flex items-center gap-6">
-        <Link href="/" onClick={close} className="flex items-center gap-2 shrink-0">
+    <header className="sticky top-0 z-40 border-b border-line bg-surface/90 backdrop-blur supports-[backdrop-filter]:bg-surface/75">
+      <div className="mx-auto flex h-16 max-w-6xl items-center gap-6 px-4 sm:px-6">
+        <Link
+          href={isKk ? '/kk' : '/'}
+          onClick={close}
+          className="flex shrink-0 items-center gap-2"
+        >
           <Image
             src="/logo-mark.png"
             alt="Jondey"
-            width={40}
-            height={40}
+            width={36}
+            height={36}
             priority
-            className="w-10 h-10"
+            className="h-9 w-9"
           />
-          <span className="text-xl font-extrabold text-[#16306b]">Jondey</span>
+          <span className="text-[19px] font-bold tracking-[-0.01em] text-brand-900">
+            Jondey
+          </span>
         </Link>
 
-        {/* Десктоп-меню */}
-        <nav className="hidden sm:flex items-center gap-5 text-sm font-medium text-slate-600">
+        {/* Десктоп-навигация */}
+        <nav
+          aria-label="Основная навигация"
+          className="hidden items-center gap-1 text-[14.5px] font-medium text-ink-soft lg:flex"
+        >
+          <div
+            className="relative"
+            onMouseEnter={() => setDirOpen(true)}
+            onMouseLeave={() => setDirOpen(false)}
+          >
+            <button
+              type="button"
+              aria-expanded={dirOpen}
+              aria-haspopup="true"
+              onClick={() => setDirOpen((v) => !v)}
+              className="inline-flex items-center gap-1.5 rounded-[var(--radius-sm)] px-3 py-2 hover:text-brand-700"
+            >
+              Направления
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                aria-hidden
+                className={`transition-transform ${dirOpen ? 'rotate-180' : ''}`}
+              >
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </button>
+
+            {dirOpen && (
+              <div className="absolute left-0 top-full w-[340px] pt-2">
+                <ul className="overflow-hidden rounded-[var(--radius-lg)] border border-line bg-surface p-2 shadow-[var(--shadow-lg)]">
+                  {DIRECTIONS.map(([href, label, hint]) => (
+                    <li key={href}>
+                      <Link
+                        href={href}
+                        onClick={close}
+                        className="block rounded-[var(--radius-sm)] px-3 py-2.5 hover:bg-surface-3"
+                      >
+                        <span className="block text-[14.5px] font-semibold text-ink">
+                          {label}
+                        </span>
+                        <span className="mt-0.5 block text-[13px] text-ink-muted">
+                          {hint}
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+
           {NAV.map(([href, label]) => (
-            <Link key={href} href={href} className="hover:text-brand">
+            <Link
+              key={href}
+              href={href}
+              className="rounded-[var(--radius-sm)] px-3 py-2 hover:text-brand-700"
+            >
               {label}
             </Link>
           ))}
         </nav>
 
-        <div className="ml-auto shrink-0 flex items-center gap-2">
-          <Link
-            href="/stat-masterom"
-            className="hidden sm:inline-flex items-center rounded-lg border border-brand px-4 py-2 text-sm font-semibold text-brand hover:bg-brand/5 transition"
+        <div className="ml-auto flex shrink-0 items-center gap-2">
+          {/* Переключатель языка */}
+          <div
+            className="hidden items-center rounded-[var(--radius-sm)] border border-line p-0.5 text-[13px] font-semibold sm:flex"
+            role="group"
+            aria-label="Язык сайта"
           >
-            Стать мастером
-          </Link>
+            <Link
+              href="/"
+              data-jd-event="lang_ru"
+              aria-current={!isKk ? 'true' : undefined}
+              className={`rounded-[6px] px-2.5 py-1 ${
+                !isKk ? 'bg-brand-900 text-white' : 'text-ink-muted hover:text-ink'
+              }`}
+            >
+              РУС
+            </Link>
+            <Link
+              href="/kk"
+              data-jd-event="lang_kk"
+              aria-current={isKk ? 'true' : undefined}
+              className={`rounded-[6px] px-2.5 py-1 ${
+                isKk ? 'bg-brand-900 text-white' : 'text-ink-muted hover:text-ink'
+              }`}
+            >
+              ҚАЗ
+            </Link>
+          </div>
+
           <Link
-            href="/sozdat-zayavku"
-            className="inline-flex items-center rounded-lg bg-brand px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-white hover:bg-brand-dark transition"
+            href="/skachat"
+            data-jd-event="header_download_app"
+            className="inline-flex items-center rounded-[var(--radius-md)] bg-accent-500 px-4 py-2.5 text-[14px] font-semibold text-brand-950 transition-colors hover:bg-accent-400"
           >
-            Создать заявку
+            Скачать приложение
           </Link>
 
-          {/* Бургер — только на мобиле */}
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? 'Закрыть меню' : 'Открыть меню'}
             aria-expanded={open}
-            className="sm:hidden grid h-10 w-10 place-items-center rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50"
+            className="grid h-10 w-10 place-items-center rounded-[var(--radius-sm)] border border-line text-ink lg:hidden"
           >
-            {open ? (
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
-                <path d="M6 6l12 12M18 6L6 18" />
-              </svg>
-            ) : (
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
-                <path d="M4 7h16M4 12h16M4 17h16" />
-              </svg>
-            )}
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              aria-hidden
+            >
+              {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
+            </svg>
           </button>
         </div>
       </div>
 
-      {/* Мобильное меню — аккуратный выпадающий список */}
+      {/* Мобильное меню */}
       {open && (
-        <nav className="sm:hidden border-t border-slate-100 bg-white shadow-lg">
-          <div className="mx-auto max-w-6xl px-4 py-2 flex flex-col">
-            {NAV.map(([href, label]) => (
+        <nav
+          aria-label="Мобильная навигация"
+          className="border-t border-line bg-surface lg:hidden"
+        >
+          <div className="mx-auto max-w-6xl px-4 py-3 sm:px-6">
+            <p className="px-1 pb-1 text-[12px] font-semibold uppercase tracking-[0.1em] text-ink-muted">
+              Направления
+            </p>
+            {DIRECTIONS.map(([href, label]) => (
               <Link
                 key={href}
                 href={href}
                 onClick={close}
-                className="py-3 text-slate-700 font-medium border-b border-slate-100 hover:text-brand"
+                className="block rounded-[var(--radius-sm)] px-1 py-3 text-[15px] font-semibold text-ink"
               >
                 {label}
               </Link>
             ))}
-            <Link
-              href="/stat-masterom"
-              onClick={close}
-              className="py-3 font-semibold text-brand border-b border-slate-100"
-            >
-              Стать мастером
-            </Link>
-            <Link
-              href="/skachat"
-              onClick={close}
-              className="py-3 text-slate-700 font-medium"
-            >
-              Скачать приложение
-            </Link>
+            <div className="my-2 h-px bg-line" />
+            {[...NAV, ...MORE].map(([href, label]) => (
+              <Link
+                key={href}
+                href={href}
+                onClick={close}
+                className="block rounded-[var(--radius-sm)] px-1 py-2.5 text-[15px] text-ink-soft"
+              >
+                {label}
+              </Link>
+            ))}
+            <div className="mt-3 flex gap-2">
+              <Link
+                href="/"
+                onClick={close}
+                className={`flex-1 rounded-[var(--radius-sm)] border border-line py-2 text-center text-[14px] font-semibold ${!isKk ? 'bg-brand-900 text-white' : 'text-ink-soft'}`}
+              >
+                РУС
+              </Link>
+              <Link
+                href="/kk"
+                onClick={close}
+                className={`flex-1 rounded-[var(--radius-sm)] border border-line py-2 text-center text-[14px] font-semibold ${isKk ? 'bg-brand-900 text-white' : 'text-ink-soft'}`}
+              >
+                ҚАЗ
+              </Link>
+            </div>
           </div>
         </nav>
       )}

@@ -9,7 +9,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getBrands(),
   ]);
   const staticUrls: MetadataRoute.Sitemap = [
-    { url: `${SITE}/`, changeFrequency: 'daily', priority: 1 },
+    {
+      url: `${SITE}/`,
+      changeFrequency: 'daily',
+      priority: 1,
+      alternates: { languages: { 'ru-KZ': `${SITE}/`, 'kk-KZ': `${SITE}/kk` } },
+    },
+    {
+      url: `${SITE}/kk`,
+      changeFrequency: 'daily',
+      priority: 0.9,
+      alternates: { languages: { 'ru-KZ': `${SITE}/`, 'kk-KZ': `${SITE}/kk` } },
+    },
     { url: `${SITE}/o-nas`, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${SITE}/sozdat-zayavku`, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${SITE}/stat-masterom`, changeFrequency: 'weekly', priority: 0.9 },
