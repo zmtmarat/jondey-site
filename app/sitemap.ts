@@ -29,7 +29,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE}/mastera`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${SITE}/zapchasti`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${SITE}/brands`, changeFrequency: 'daily', priority: 0.8 },
-    { url: `${SITE}/dostavka`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${SITE}/kompanii`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${SITE}/zayavki`, changeFrequency: 'hourly', priority: 0.9 },
     { url: `${SITE}/forum`, changeFrequency: 'daily', priority: 0.7 },

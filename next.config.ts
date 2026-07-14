@@ -59,6 +59,15 @@ const nextConfig: NextConfig = {
     // Веб-приложение (Flutter PWA) лежит в public/app; отдаём index.html по /app.
     return [{ source: "/app", destination: "/app/index.html" }];
   },
+  async redirects() {
+    // Направление «Доставка» убрано с витрины (отдельная тема, не конкурируем
+    // с Яндексом). Старый URL и его подстраницы 301 → на главную, чтобы не
+    // терять уже проиндексированные ссылки и не отдавать 404.
+    return [
+      { source: "/dostavka", destination: "/", permanent: true },
+      { source: "/dostavka/:path*", destination: "/", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

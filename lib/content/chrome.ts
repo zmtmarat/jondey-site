@@ -29,7 +29,7 @@ const CHROME: Record<Locale, ChromeContent> = {
     langGroup: 'Язык сайта',
     download: 'Скачать приложение',
     tagline:
-      'Мастера, доставка, спецтехника и запчасти по всему Казахстану — в одном приложении.',
+      'Мастера, запчасти и спецтехника по всему Казахстану — в одном приложении.',
     appLangs: 'Приложение доступно на казахском и русском языках.',
     dirs: [
       {
@@ -38,19 +38,14 @@ const CHROME: Record<Locale, ChromeContent> = {
         hint: 'Ремонт, сантехника, электрика, авто',
       },
       {
-        href: '/dostavka',
-        label: 'Доставка и перевозки',
-        hint: 'Курьер, газель, грузоперевозка',
+        href: '/zapchasti',
+        label: 'Запчасти',
+        hint: 'Один запрос — цены от магазинов',
       },
       {
         href: '/uslugi',
         label: 'Спецтехника и услуги',
         hint: 'Кран, автовышка, эвакуатор',
-      },
-      {
-        href: '/zapchasti',
-        label: 'Запчасти',
-        hint: 'Один запрос — цены от магазинов',
       },
     ],
     nav: [
@@ -71,7 +66,6 @@ const CHROME: Record<Locale, ChromeContent> = {
         links: [
           { href: '/mastera', label: 'Найти мастера' },
           { href: '/zapchasti', label: 'Найти запчасть' },
-          { href: '/dostavka', label: 'Заказать доставку' },
           { href: '/uslugi', label: 'Вызвать спецтехнику' },
           { href: '/sozdat-zayavku', label: 'Создать заявку' },
           { href: '/zayavki', label: 'Все заявки' },
@@ -120,7 +114,7 @@ const CHROME: Record<Locale, ChromeContent> = {
     langGroup: 'Сайт тілі',
     download: 'Қосымшаны жүктеу',
     tagline:
-      'Шеберлер, жеткізу, арнайы техника және қосалқы бөлшектер — бүкіл Қазақстан бойынша, бір қосымшада.',
+      'Шеберлер, қосалқы бөлшектер және арнайы техника — бүкіл Қазақстан бойынша, бір қосымшада.',
     appLangs: 'Қосымша қазақ және орыс тілдерінде қолжетімді.',
     dirs: [
       {
@@ -129,19 +123,14 @@ const CHROME: Record<Locale, ChromeContent> = {
         hint: 'Жөндеу, сантехника, электрика, көлік',
       },
       {
-        href: '/dostavka',
-        label: 'Жеткізу және тасымал',
-        hint: 'Курьер, газель, жүк тасымалы',
+        href: '/zapchasti',
+        label: 'Қосалқы бөлшектер',
+        hint: 'Бір сұраныс — дүкендерден баға',
       },
       {
         href: '/uslugi',
         label: 'Арнайы техника және қызметтер',
         hint: 'Кран, автомұнара, эвакуатор',
-      },
-      {
-        href: '/zapchasti',
-        label: 'Қосалқы бөлшектер',
-        hint: 'Бір сұраныс — дүкендерден баға',
       },
     ],
     nav: [
@@ -162,7 +151,6 @@ const CHROME: Record<Locale, ChromeContent> = {
         links: [
           { href: '/mastera', label: 'Шебер табу' },
           { href: '/zapchasti', label: 'Бөлшек табу' },
-          { href: '/dostavka', label: 'Жеткізуге тапсырыс' },
           { href: '/uslugi', label: 'Арнайы техника шақыру' },
           { href: '/sozdat-zayavku', label: 'Өтінім жасау' },
           { href: '/zayavki', label: 'Барлық өтінімдер' },

@@ -94,13 +94,13 @@ export default function DownloadPage() {
             <li>📩 Заявки по вашим категориям и городу</li>
             <li>📍 «На связи» — заказы поблизости по геолокации</li>
             <li>⭐ Профиль с отзывами и рейтингом</li>
-            <li>🚚 Доставка с авто — отдельный поток заказов</li>
+            <li>🔧 Запросы на запчасти и вызовы спецтехники</li>
           </ul>
           <Link
-            href="/dostavka"
+            href="/stat-masterom"
             className="mt-5 inline-flex rounded-xl bg-slate-900 text-white px-5 py-2.5 font-semibold hover:bg-black transition"
           >
-            Узнать про доставку
+            Стать исполнителем
           </Link>
         </div>
       </div>

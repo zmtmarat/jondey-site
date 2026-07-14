@@ -2,33 +2,28 @@ import Link from 'next/link';
 import type { DirectionKey, HomeContent } from '@/lib/content/home';
 import { Icon, Section, SectionHead } from './ui';
 
-/* Четыре главных направления. У каждой карточки — своя визуальная
+/* Три главных направления. У каждой карточки — своя визуальная
    идентичность (иконка + акцентная линия), польза вместо названия функции
-   и явное действие. Не четыре одинаковые пустые карточки. */
+   и явное действие. Не три одинаковые пустые карточки. */
 
 const STYLE: Record<
   DirectionKey,
-  { icon: 'wrench' | 'truck' | 'crane' | 'gear'; accent: string; ring: string }
+  { icon: 'wrench' | 'crane' | 'gear'; accent: string; ring: string }
 > = {
   masters: {
     icon: 'wrench',
     accent: 'bg-brand-600',
     ring: 'group-hover:border-brand-400',
   },
-  delivery: {
-    icon: 'truck',
-    accent: 'bg-success',
-    ring: 'group-hover:border-success/50',
+  parts: {
+    icon: 'gear',
+    accent: 'bg-brand-900',
+    ring: 'group-hover:border-brand-900/40',
   },
   equipment: {
     icon: 'crane',
     accent: 'bg-warning',
     ring: 'group-hover:border-warning/50',
-  },
-  parts: {
-    icon: 'gear',
-    accent: 'bg-brand-900',
-    ring: 'group-hover:border-brand-900/40',
   },
 };
 
@@ -37,7 +32,7 @@ export default function Directions({ c }: { c: HomeContent }) {
     <Section id="directions" tone="muted">
       <SectionHead title={c.directions.title} lead={c.directions.lead} />
 
-      <div className="mt-10 grid gap-5 sm:grid-cols-2">
+      <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {c.directions.items.map((d, i) => {
           const s = STYLE[d.key];
           return (

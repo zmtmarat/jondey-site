@@ -176,7 +176,7 @@ export default function RequestForm({
         <input
           value={catQuery}
           onChange={(e) => setCatQuery(e.target.value)}
-          placeholder="🔍 Поиск: сантехник, ремонт, доставка…"
+          placeholder="🔍 Поиск: сантехник, ремонт, спецтехника…"
           className={field + ' mb-3'}
         />
         <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 max-h-64 overflow-y-auto p-0.5">
