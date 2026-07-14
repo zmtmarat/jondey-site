@@ -1,6 +1,10 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { SUPPORT_WHATSAPP } from '@/lib/contacts';
+import { chromeContent } from '@/lib/content/chrome';
 
 /* Подвал. Только существующие страницы — битых ссылок нет.
    Разделы, которых ещё нет (Соглашение, База знаний, API, Партнёрская
@@ -8,45 +12,10 @@ import { SUPPORT_WHATSAPP } from '@/lib/contacts';
 
 const SUPPORT_EMAIL = 'zmtmarat@gmail.com';
 
-const COLS: { title: string; links: [string, string][] }[] = [
-  {
-    title: 'Пользователям',
-    links: [
-      ['/mastera', 'Найти мастера'],
-      ['/zapchasti', 'Найти запчасть'],
-      ['/dostavka', 'Заказать доставку'],
-      ['/uslugi', 'Вызвать спецтехнику'],
-      ['/sozdat-zayavku', 'Создать заявку'],
-      ['/zayavki', 'Все заявки'],
-    ],
-  },
-  {
-    title: 'Исполнителям',
-    links: [
-      ['/stat-masterom', 'Стать исполнителем'],
-      ['/rabota', 'Работа и заказы'],
-      ['/skachat', 'Скачать приложение'],
-    ],
-  },
-  {
-    title: 'Бизнесу',
-    links: [
-      ['/kompanii', 'Компании и магазины'],
-      ['/brands', 'Бренды и представители'],
-    ],
-  },
-  {
-    title: 'О Jondey',
-    links: [
-      ['/o-nas', 'О сервисе'],
-      ['/#how', 'Как это работает'],
-      ['/forum', 'Обсуждения'],
-      ['/politika', 'Политика конфиденциальности'],
-    ],
-  },
-];
-
 export default function Footer() {
+  const pathname = usePathname();
+  const isKk = pathname?.startsWith('/kk') ?? false;
+  const t = chromeContent(isKk ? 'kk' : 'ru');
   const year = new Date().getFullYear();
 
   return (
@@ -66,8 +35,7 @@ export default function Footer() {
               <span className="text-[17px] font-bold text-brand-900">Jondey</span>
             </div>
             <p className="mt-3 max-w-xs text-[14px] leading-6 text-ink-muted">
-              Мастера, доставка, спецтехника и запчасти по всему Казахстану — в
-              одном приложении.
+              {t.tagline}
             </p>
 
             <div className="mt-5 space-y-1.5 text-[14px]">
@@ -94,12 +62,26 @@ export default function Footer() {
             <div
               className="mt-5 inline-flex items-center rounded-[var(--radius-sm)] border border-line p-0.5 text-[13px] font-semibold"
               role="group"
-              aria-label="Язык сайта"
+              aria-label={t.langGroup}
             >
-              <Link href="/" className="rounded-[6px] px-2.5 py-1 text-ink-soft hover:text-ink">
+              <Link
+                href="/"
+                hrefLang="ru"
+                aria-current={!isKk ? 'true' : undefined}
+                className={`rounded-[6px] px-2.5 py-1 ${
+                  !isKk ? 'bg-brand-900 text-white' : 'text-ink-soft hover:text-ink'
+                }`}
+              >
                 РУС
               </Link>
-              <Link href="/kk" className="rounded-[6px] px-2.5 py-1 text-ink-soft hover:text-ink">
+              <Link
+                href="/kk"
+                hrefLang="kk"
+                aria-current={isKk ? 'true' : undefined}
+                className={`rounded-[6px] px-2.5 py-1 ${
+                  isKk ? 'bg-brand-900 text-white' : 'text-ink-soft hover:text-ink'
+                }`}
+              >
                 ҚАЗ
               </Link>
             </div>
@@ -107,19 +89,19 @@ export default function Footer() {
 
           {/* Разделы */}
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {COLS.map((col) => (
+            {t.cols.map((col) => (
               <nav key={col.title} aria-label={col.title}>
                 <h2 className="text-[13px] font-semibold uppercase tracking-[0.1em] text-ink">
                   {col.title}
                 </h2>
                 <ul className="mt-4 space-y-2.5">
-                  {col.links.map(([href, label]) => (
-                    <li key={href}>
+                  {col.links.map((l) => (
+                    <li key={l.href}>
                       <Link
-                        href={href}
+                        href={l.href}
                         className="text-[14px] text-ink-soft hover:text-brand-700"
                       >
-                        {label}
+                        {l.label}
                       </Link>
                     </li>
                   ))}
@@ -131,7 +113,7 @@ export default function Footer() {
 
         <div className="mt-12 flex flex-col gap-2 border-t border-line pt-6 text-[13px] text-ink-muted sm:flex-row sm:items-center sm:justify-between">
           <p>© {year} Jondey. ТОО «RIDS EMPIRE», БИН 170240016026.</p>
-          <p>Приложение доступно на казахском и русском языках.</p>
+          <p>{t.appLangs}</p>
         </div>
       </div>
     </footer>

@@ -1,40 +1,30 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { chromeContent } from '@/lib/content/chrome';
+import { HTML_LANG } from '@/lib/i18n';
 
-/* Шапка: аккуратно закреплённая, без перегруза. Второстепенные разделы —
-   в выпадающем меню «Направления». Переключатель языка ведёт на локализованную
-   главную (kk-версия главной готова; остальные страницы пока на русском). */
-
-const DIRECTIONS = [
-  ['/mastera', 'Мастера', 'Ремонт, сантехника, электрика, авто'],
-  ['/dostavka', 'Доставка и перевозки', 'Курьер, газель, грузоперевозка'],
-  ['/uslugi', 'Спецтехника и услуги', 'Кран, автовышка, эвакуатор'],
-  ['/zapchasti', 'Запчасти', 'Один запрос — цены от магазинов'],
-] as const;
-
-const NAV = [
-  ['/#how', 'Как это работает'],
-  ['/stat-masterom', 'Исполнителям'],
-  ['/kompanii', 'Бизнесу'],
-  ['/brands', 'Бренды'],
-] as const;
-
-const MORE = [
-  ['/zayavki', 'Заявки'],
-  ['/forum', 'Обсуждения'],
-  ['/rabota', 'Работа'],
-  ['/o-nas', 'О сервисе'],
-] as const;
+/* Шапка: закреплённая, без перегруза. Направления — в выпадающем меню.
+   Подписи переключаются на казахский на /kk (главная переведена полностью;
+   внутренние страницы пока на русском — ссылки ведут туда же). */
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [dirOpen, setDirOpen] = useState(false);
   const pathname = usePathname();
-  const isKk = pathname?.startsWith('/kk');
+  const isKk = pathname?.startsWith('/kk') ?? false;
+  const locale = isKk ? 'kk' : 'ru';
+  const t = chromeContent(locale);
+
+  // Корневой layout статичен и объявляет lang="ru"; на казахской странице
+  // приводим его в соответствие, чтобы скринридеры читали текст по-казахски.
+  useEffect(() => {
+    document.documentElement.lang = HTML_LANG[locale];
+  }, [locale]);
+
   const close = () => {
     setOpen(false);
     setDirOpen(false);
@@ -63,7 +53,7 @@ export default function Header() {
 
         {/* Десктоп-навигация */}
         <nav
-          aria-label="Основная навигация"
+          aria-label={t.mainNav}
           className="hidden items-center gap-1 text-[14.5px] font-medium text-ink-soft lg:flex"
         >
           <div
@@ -78,7 +68,7 @@ export default function Header() {
               onClick={() => setDirOpen((v) => !v)}
               className="inline-flex items-center gap-1.5 rounded-[var(--radius-sm)] px-3 py-2 hover:text-brand-700"
             >
-              Направления
+              {t.directions}
               <svg
                 width="14"
                 height="14"
@@ -97,18 +87,18 @@ export default function Header() {
             {dirOpen && (
               <div className="absolute left-0 top-full w-[340px] pt-2">
                 <ul className="overflow-hidden rounded-[var(--radius-lg)] border border-line bg-surface p-2 shadow-[var(--shadow-lg)]">
-                  {DIRECTIONS.map(([href, label, hint]) => (
-                    <li key={href}>
+                  {t.dirs.map((d) => (
+                    <li key={d.href}>
                       <Link
-                        href={href}
+                        href={d.href}
                         onClick={close}
                         className="block rounded-[var(--radius-sm)] px-3 py-2.5 hover:bg-surface-3"
                       >
                         <span className="block text-[14.5px] font-semibold text-ink">
-                          {label}
+                          {d.label}
                         </span>
                         <span className="mt-0.5 block text-[13px] text-ink-muted">
-                          {hint}
+                          {d.hint}
                         </span>
                       </Link>
                     </li>
@@ -118,13 +108,13 @@ export default function Header() {
             )}
           </div>
 
-          {NAV.map(([href, label]) => (
+          {t.nav.map((n) => (
             <Link
-              key={href}
-              href={href}
+              key={n.href}
+              href={n.href}
               className="rounded-[var(--radius-sm)] px-3 py-2 hover:text-brand-700"
             >
-              {label}
+              {n.label}
             </Link>
           ))}
         </nav>
@@ -134,10 +124,11 @@ export default function Header() {
           <div
             className="hidden items-center rounded-[var(--radius-sm)] border border-line p-0.5 text-[13px] font-semibold sm:flex"
             role="group"
-            aria-label="Язык сайта"
+            aria-label={t.langGroup}
           >
             <Link
               href="/"
+              hrefLang="ru"
               data-jd-event="lang_ru"
               aria-current={!isKk ? 'true' : undefined}
               className={`rounded-[6px] px-2.5 py-1 ${
@@ -148,6 +139,7 @@ export default function Header() {
             </Link>
             <Link
               href="/kk"
+              hrefLang="kk"
               data-jd-event="lang_kk"
               aria-current={isKk ? 'true' : undefined}
               className={`rounded-[6px] px-2.5 py-1 ${
@@ -163,13 +155,13 @@ export default function Header() {
             data-jd-event="header_download_app"
             className="inline-flex items-center rounded-[var(--radius-md)] bg-accent-500 px-4 py-2.5 text-[14px] font-semibold text-brand-950 transition-colors hover:bg-accent-400"
           >
-            Скачать приложение
+            {t.download}
           </Link>
 
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            aria-label={open ? 'Закрыть меню' : 'Открыть меню'}
+            aria-label={open ? t.closeMenu : t.openMenu}
             aria-expanded={open}
             className="grid h-10 w-10 place-items-center rounded-[var(--radius-sm)] border border-line text-ink lg:hidden"
           >
@@ -183,7 +175,11 @@ export default function Header() {
               strokeLinecap="round"
               aria-hidden
             >
-              {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
+              {open ? (
+                <path d="M6 6l12 12M18 6L6 18" />
+              ) : (
+                <path d="M4 7h16M4 12h16M4 17h16" />
+              )}
             </svg>
           </button>
         </div>
@@ -191,47 +187,50 @@ export default function Header() {
 
       {/* Мобильное меню */}
       {open && (
-        <nav
-          aria-label="Мобильная навигация"
-          className="border-t border-line bg-surface lg:hidden"
-        >
+        <nav aria-label={t.mobileNav} className="border-t border-line bg-surface lg:hidden">
           <div className="mx-auto max-w-6xl px-4 py-3 sm:px-6">
             <p className="px-1 pb-1 text-[12px] font-semibold uppercase tracking-[0.1em] text-ink-muted">
-              Направления
+              {t.directions}
             </p>
-            {DIRECTIONS.map(([href, label]) => (
+            {t.dirs.map((d) => (
               <Link
-                key={href}
-                href={href}
+                key={d.href}
+                href={d.href}
                 onClick={close}
                 className="block rounded-[var(--radius-sm)] px-1 py-3 text-[15px] font-semibold text-ink"
               >
-                {label}
+                {d.label}
               </Link>
             ))}
             <div className="my-2 h-px bg-line" />
-            {[...NAV, ...MORE].map(([href, label]) => (
+            {[...t.nav, ...t.more].map((n) => (
               <Link
-                key={href}
-                href={href}
+                key={n.href}
+                href={n.href}
                 onClick={close}
                 className="block rounded-[var(--radius-sm)] px-1 py-2.5 text-[15px] text-ink-soft"
               >
-                {label}
+                {n.label}
               </Link>
             ))}
             <div className="mt-3 flex gap-2">
               <Link
                 href="/"
                 onClick={close}
-                className={`flex-1 rounded-[var(--radius-sm)] border border-line py-2 text-center text-[14px] font-semibold ${!isKk ? 'bg-brand-900 text-white' : 'text-ink-soft'}`}
+                hrefLang="ru"
+                className={`flex-1 rounded-[var(--radius-sm)] border border-line py-2 text-center text-[14px] font-semibold ${
+                  !isKk ? 'bg-brand-900 text-white' : 'text-ink-soft'
+                }`}
               >
                 РУС
               </Link>
               <Link
                 href="/kk"
                 onClick={close}
-                className={`flex-1 rounded-[var(--radius-sm)] border border-line py-2 text-center text-[14px] font-semibold ${isKk ? 'bg-brand-900 text-white' : 'text-ink-soft'}`}
+                hrefLang="kk"
+                className={`flex-1 rounded-[var(--radius-sm)] border border-line py-2 text-center text-[14px] font-semibold ${
+                  isKk ? 'bg-brand-900 text-white' : 'text-ink-soft'
+                }`}
               >
                 ҚАЗ
               </Link>
